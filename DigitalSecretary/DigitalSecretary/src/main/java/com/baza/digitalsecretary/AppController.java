@@ -22,12 +22,17 @@ public class AppController {
     private Label TodayText;
 
     @FXML
+    private Button GoToAddEventButton;
+
+    @FXML
     void initialize() {
 
+        //Обновление даты в приложении
         Date today = new Date();
         SimpleDateFormat formatToday = new SimpleDateFormat("'Сегодня: 'dd.MM.yyyy");
         TodayText.setText(formatToday.format(today));
 
+        //Переход на авторизацию
         ExitButton.setOnAction(event -> {
 
             FXMLLoader loader = new FXMLLoader();
@@ -42,6 +47,23 @@ public class AppController {
             Parent root = loader.getRoot();
             primaryStage.setScene(new Scene(root));
         });
+
+        GoToAddEventButton.setOnAction(event -> {
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("adding_event.fxml"));
+
+            try {
+                loader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            Parent root = loader.getRoot();
+            primaryStage.setScene(new Scene(root));
+        });
+
+
 
 
 
