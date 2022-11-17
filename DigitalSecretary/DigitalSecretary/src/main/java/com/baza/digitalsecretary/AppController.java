@@ -37,5 +37,7 @@ public class AppController {
             GoToRegistrationButton.getScene().getWindow().hide();
             stage.showAndWait();*/
         });
+
+
     }
 }
