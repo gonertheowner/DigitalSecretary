@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import static com.baza.digitalsecretary.HelloApplication.primaryStage;
+
 public class AuthorizationController {
 
     @FXML
@@ -31,7 +33,6 @@ public class AuthorizationController {
     @FXML
     void initialize(){
         GoToRegistrationButton.setOnAction(event ->{
-            //GoToRegistrationButton.getScene().getWindow().hide();
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("registration.fxml"));
@@ -43,17 +44,15 @@ public class AuthorizationController {
             }
 
             Parent root = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            GoToRegistrationButton.getScene().getWindow().hide();
-            stage.showAndWait();
+            primaryStage.setScene(new Scene(root));
         });
 
-        SignInButton.setOnAction(event -> {
-            String resultOfCheck = "Asuccess";
+        SignInButton.setOnAction(event ->{
+            String resultOfCheck = "success";
             //Максим, добавь сюда функцию которая принимает login и password и возвращает "success" или ошибку
             //возможные ошибки: какое-то поле пустое, нет такого логина, неверный пароль
             if (resultOfCheck == "success") {
+                ErrorText.setText(resultOfCheck);
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("app.fxml"));
 
@@ -64,10 +63,7 @@ public class AuthorizationController {
                 }
 
                 Parent root = loader.getRoot();
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                SignInButton.getScene().getWindow().hide();
-                stage.showAndWait();
+                primaryStage.setScene(new Scene(root));
             } else {
                 ErrorText.setText(resultOfCheck);
             }
