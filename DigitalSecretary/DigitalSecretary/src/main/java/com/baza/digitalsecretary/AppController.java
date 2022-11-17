@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static com.baza.digitalsecretary.HelloApplication.primaryStage;
 
@@ -31,6 +32,8 @@ public class AppController {
         Date today = new Date();
         SimpleDateFormat formatToday = new SimpleDateFormat("'Сегодня: 'dd.MM.yyyy");
         TodayText.setText(formatToday.format(today));
+
+        //ArrayList<String> allEventsList = new
 
         //Переход на авторизацию
         ExitButton.setOnAction(event -> {
@@ -62,12 +65,6 @@ public class AppController {
             Parent root = loader.getRoot();
             primaryStage.setScene(new Scene(root));
         });
-
-
-
-
-
-
 
     }
 }

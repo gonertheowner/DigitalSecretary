@@ -4,10 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
@@ -27,7 +24,7 @@ public class AddingEventController {
     private TextField CategoryField;
 
     @FXML
-    private TextField DateField;
+    private DatePicker DateField;
 
     @FXML
     private TextArea DescriptionField;
@@ -58,13 +55,13 @@ public class AddingEventController {
         });
 
         AddEventButton.setOnAction(event -> {
-            String date = DateField.getText();
+            String date = DateField.getValue().toString();//формат 2012-02-23
             String category = CategoryField.getText();
             String title = TitleField.getText();
             String description = DescriptionField.getText();
             //Функция добавляющая событие и возрощающая "success" в случае успеха
             //или ошибку
-            String resultOfCheck = "Asuccess";
+            String resultOfCheck = "success";
             if (resultOfCheck == "success"){
                 ErrorText.setTextFill(Color.color(0, 0.70, 0));
                 ErrorText.setText("Добавление прошло успешно");

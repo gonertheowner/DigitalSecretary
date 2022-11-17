@@ -12,7 +12,7 @@
       <TextField fx:id="SignInField" layoutX="388.0" layoutY="245.0" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="388.0" layoutY="215.0" prefHeight="17.0" prefWidth="149.0" text="Логин" />
       <Label alignment="CENTER" layoutX="388.0" layoutY="282.0" prefHeight="17.0" prefWidth="149.0" text="Пароль" />
-      <Button fx:id="GoToRegistrationButton" layoutX="687.0" layoutY="96.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Регистрация" />
+      <Button fx:id="GoToRegistrationButton" layoutX="797.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Регистрация" />
       <Label layoutX="427.0" layoutY="165.0" text="Авторизация" />
       <Label fx:id="ErrorText" alignment="CENTER" layoutX="389.0" layoutY="192.0" prefHeight="17.0" prefWidth="149.0" />
    </children>
