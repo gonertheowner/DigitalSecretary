@@ -45,12 +45,6 @@ public class RegistrationController {
 
             Parent root = loader.getRoot();
             primaryStage.setScene(new Scene(root));
-            /*Parent root = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            BackToAuthorizationButton.getScene().getWindow().hide();
-            GoToRegistrationButton.getScene().getWindow().hide();
-            stage.showAndWait();*/
         });
 
         RegisterButton.setOnAction(event ->{
