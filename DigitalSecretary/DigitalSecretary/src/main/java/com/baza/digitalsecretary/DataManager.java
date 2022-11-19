@@ -21,20 +21,24 @@ public class DataManager {
         }
     }
 
-    public static boolean selectAll(String tableName) throws SQLException {
+    public static void selectAll(String tableName) {
         boolean flag;
-        if (tableName == null) {
-            flag = false;
-            // OurClassException
-        }
 
-        var statement = connection.prepareStatement("SELECT * FROM ?");
-        statement.setString(1, tableName);
-        flag = statement.executeUpdate() != 0;
-        return flag;
+         try {
+             if (tableName == null) {
+                 flag = false;
+                 // OurClassException
+             }
+             var statement = connection.prepareStatement("SELECT * FROM ?");
+             statement.setString(1, tableName);
+         }
+         catch (SQLException e) {
+             // OurClassException
+             throw new RuntimeException(e);
+         }
     }
 
-    public static boolean delete(String tableName, int index) {
+    public static boolean deleteUser(String tableName, int index) {
         boolean flag;
         if (tableName == null) {
             flag = false;
@@ -42,13 +46,73 @@ public class DataManager {
         }
 
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM ? WHERE ID=?");
-            preparedStatement.setString(1, tableName);
-            preparedStatement.setInt(2, index);
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM users WHERE id=?");
+            preparedStatement.setInt(1, index);
             flag = preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return flag;
     }
+    public static void addUser(User user) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("Insert Into Users (login, password) VALUES (?,?)");
+            preparedStatement.setString(1, user.getLogin());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            // OurClassException
+            throw new RuntimeException(e);
+        }
+    }
+    public static boolean updateUser(int index, User user) {
+        boolean flag;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Users SET login=?, password=? WHERE ID=?");
+            preparedStatement.setString(1, user.getLogin());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setInt(3, index);
+            flag = preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return flag;
+    }
+    public static boolean searchUser(User user) {
+        boolean flag = false;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT login FROM Users WHERE EXISTS(SELECT login FROM Users where (login=? AND password=?))");
+            preparedStatement.setString(1, user.getLogin());
+            preparedStatement.setString(2,user.getPassword());
+            var resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                flag = true;
+            }
+
+        } catch (SQLException e) {
+            // OurClassException
+            throw new RuntimeException(e);
+        }
+        return flag;
+    }
+    public static boolean searchByLogin(User user) {
+        boolean flag = false;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT login FROM Users WHERE EXISTS(SELECT login FROM Users where login=? )");
+            preparedStatement.setString(1, user.getLogin());
+            var resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                flag = true;
+                System.out.println("ok");
+            }
+
+        } catch (SQLException e) {
+            // OurClassException
+            throw new RuntimeException(e);
+        }
+        return flag;
+    }
 }
+
