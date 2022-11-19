@@ -49,8 +49,21 @@ public class RegistrationController {
 
         RegisterButton.setOnAction(event ->{
             String resultOfCheck = "success";
-            //Максим, добавь сюда функцию которая принимает login и password и возвращает "success" или ошибку
-            //возможные ошибки: какое-то поле пустое, логин занят
+            User user=new User(LoginField.getText(),PasswordField.getText());
+            if (DataManager.searchByLogin(user)){
+                resultOfCheck="User with this username exists";
+            }
+            if (LoginField.getText().length()==0){
+                resultOfCheck="No login";
+            }
+            if (PasswordField.getText().length()==0){
+                resultOfCheck="No Password";
+            }
+            if (!DataManager.searchByLogin(user) && PasswordField.getText().length()!=0 && LoginField.getText().length()!=0) {
+                resultOfCheck="success";
+                DataManager.addUser(user);
+            }
+            ErrorText.setText(resultOfCheck);
             if (resultOfCheck == "success") {
                 ErrorText.setText(resultOfCheck);
                 FXMLLoader loader = new FXMLLoader();

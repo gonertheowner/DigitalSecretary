@@ -105,7 +105,6 @@ public class DataManager {
 
             if (resultSet.next()) {
                 flag = true;
-                System.out.println("ok");
             }
 
         } catch (SQLException e) {
