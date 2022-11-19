@@ -25,7 +25,7 @@ public class AuthorizationController {
     private Button SignInButton;
 
     @FXML
-    private TextField SignInField;
+    private TextField LogInField;
 
     @FXML
     private Label ErrorText;
@@ -48,25 +48,43 @@ public class AuthorizationController {
         });
 
         SignInButton.setOnAction(event ->{
-            String resultOfCheck = "success";
-            //Максим, добавь сюда функцию которая принимает login и password и возвращает "success" или ошибку
-            //возможные ошибки: какое-то поле пустое, нет такого логина, неверный пароль
-            if (resultOfCheck == "success") {
-                ErrorText.setText(resultOfCheck);
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("app.fxml"));
+            String resultOfCheck="success";
+            User user=new User(LogInField.getText(), PasswordField.getText());
+            if (!DataManager.searchByLogin(user)){
+                resultOfCheck="Not found user with this login. Go registration";
+            }
+            if (DataManager.searchByLogin(user) && !DataManager.searchUser(user)){
+                resultOfCheck="Uncorrected password";
+            }
+            if (PasswordField.getText().length()==0){
+                resultOfCheck="No password";
+            }
+            if (LogInField.getText().length()==0){
+                resultOfCheck="No login";
+            }
+            if (DataManager.searchUser(user)) {
+                resultOfCheck="success";
+            }
 
-                try {
-                    loader.load();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+            ErrorText.setText(resultOfCheck);
+            
+                if (resultOfCheck.equals("success")) {
+                    ErrorText.setText(resultOfCheck);
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("app.fxml"));
+
+                    try {
+                        loader.load();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    Parent root = loader.getRoot();
+                    primaryStage.setScene(new Scene(root));
                 }
 
-                Parent root = loader.getRoot();
-                primaryStage.setScene(new Scene(root));
-            } else {
-                ErrorText.setText(resultOfCheck);
-            }
+
+
         });
     }
 
