@@ -53,6 +53,9 @@ public class RegistrationController {
             if (!FieldsChecker.isValidPassword(PasswordField.getText()).equals("Success")){
                 resultOfCheck=FieldsChecker.isValidPassword(PasswordField.getText());
             }
+            if (!FieldsChecker.isValidLogin(LoginField.getText()).equals("Success")){
+                resultOfCheck=FieldsChecker.isValidLogin(LoginField.getText());
+            }
             if (DataManager.searchByLogin(user)){
                 resultOfCheck="User with this username exists";
             }
@@ -63,7 +66,8 @@ public class RegistrationController {
                 resultOfCheck="No Password";
             }
             if (!DataManager.searchByLogin(user) && PasswordField.getText().length()!=0 && LoginField.getText().length()!=0
-                    && FieldsChecker.isValidPassword(PasswordField.getText()).equals("Success")) {
+                    && FieldsChecker.isValidPassword(PasswordField.getText()).equals("Success")
+                        && FieldsChecker.isValidLogin(LoginField.getText()).equals("Success")) {
                 resultOfCheck="success";
                 DataManager.addUser(user);
             }

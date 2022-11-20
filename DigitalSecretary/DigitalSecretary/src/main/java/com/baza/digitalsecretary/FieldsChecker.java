@@ -5,11 +5,8 @@ import java.util.regex.*;
 public class FieldsChecker {
     public static String isValidPassword(String password) {
         String regex = "(\\d[a-z, A-Z]|[a-z, A-Z]\\d)";
-        String regex1 = "(?=\\S+$)$";
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(password);
-        Pattern p1 = Pattern.compile(regex1);
-        Matcher m1 = p1.matcher(password);
         for (int i = 0; i < password.length(); i++) {
             if (Character.UnicodeBlock.of(password.charAt(i)).equals(Character.UnicodeBlock.CYRILLIC)) {
                 return "Consist of cyrillic";
@@ -27,5 +24,14 @@ public class FieldsChecker {
         else {
             return "the password does not meet the condition";
         }
+    }
+    public static String isValidLogin (String login) {
+        if (login.indexOf(" ")!=-1) {
+            return "login consist space";
+        }
+        if (login.length()>40){
+            return "login must consist less than 40 symbols";
+        }
+        return "Success";
     }
 }
