@@ -50,6 +50,9 @@ public class RegistrationController {
         RegisterButton.setOnAction(event ->{
             String resultOfCheck = "success";
             User user=new User(LoginField.getText(),PasswordField.getText());
+            if (!FieldsChecker.isValidPassword(PasswordField.getText()).equals("Success")){
+                resultOfCheck=FieldsChecker.isValidPassword(PasswordField.getText());
+            }
             if (DataManager.searchByLogin(user)){
                 resultOfCheck="User with this username exists";
             }
@@ -59,7 +62,8 @@ public class RegistrationController {
             if (PasswordField.getText().length()==0){
                 resultOfCheck="No Password";
             }
-            if (!DataManager.searchByLogin(user) && PasswordField.getText().length()!=0 && LoginField.getText().length()!=0) {
+            if (!DataManager.searchByLogin(user) && PasswordField.getText().length()!=0 && LoginField.getText().length()!=0
+                    && FieldsChecker.isValidPassword(PasswordField.getText()).equals("Success")) {
                 resultOfCheck="success";
                 DataManager.addUser(user);
             }
