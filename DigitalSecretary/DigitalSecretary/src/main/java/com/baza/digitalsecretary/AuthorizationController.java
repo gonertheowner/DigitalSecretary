@@ -31,6 +31,9 @@ public class AuthorizationController {
     private Label ErrorText;
 
     @FXML
+    private Button SkipButton;
+
+    @FXML
     void initialize(){
         GoToRegistrationButton.setOnAction(event ->{
 
@@ -68,24 +71,37 @@ public class AuthorizationController {
 
             ErrorText.setText(resultOfCheck);
             
-                if (resultOfCheck.equals("success")) {
-                    ErrorText.setText(resultOfCheck);
-                    FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(getClass().getResource("app.fxml"));
+            if (resultOfCheck.equals("success")) {
+                ErrorText.setText(resultOfCheck);
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("app.fxml"));
 
-                    try {
-                        loader.load();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                    Parent root = loader.getRoot();
-                    primaryStage.setScene(new Scene(root));
+                try {
+                    loader.load();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
 
-
-
+                Parent root = loader.getRoot();
+                primaryStage.setScene(new Scene(root));
+            }
         });
+
+        SkipButton.setOnAction(event ->{
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("app.fxml"));
+
+            try {
+                loader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            Parent root = loader.getRoot();
+            primaryStage.setScene(new Scene(root));
+        });
+
     }
 
 }
