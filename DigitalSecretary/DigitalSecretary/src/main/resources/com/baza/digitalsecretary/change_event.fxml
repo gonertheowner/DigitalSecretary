@@ -10,7 +10,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.baza.digitalsecretary.ChangeEventController">
     <children>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="400.0" layoutY="39.0" prefHeight="17.0" prefWidth="193.0" text="DigitalSecretary" />
-        <Button fx:id="BackToAppButton" layoutX="894.0" layoutY="14.0" mnemonicParsing="false" text="Назад" />
+        <Button fx:id="BackToChooseEventButton" layoutX="894.0" layoutY="14.0" mnemonicParsing="false" text="Назад" />
         <Button fx:id="ChangeEventButton" layoutX="434.0" layoutY="453.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="Изменить" />
         <TextField fx:id="TitleField" layoutX="420.0" layoutY="212.0" />
         <TextField fx:id="CategoryField" layoutX="420.0" layoutY="270.0" />
