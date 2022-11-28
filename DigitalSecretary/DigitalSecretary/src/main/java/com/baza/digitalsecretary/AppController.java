@@ -37,6 +37,9 @@ public class AppController {
     private ListView<String> СomingEventsListBox;
 
     @FXML
+    private Button GoToChooseEventButton;
+
+    @FXML
     void initialize() {
 
         //Обновление даты в приложении
@@ -71,6 +74,21 @@ public class AppController {
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("adding_event.fxml"));
+
+            try {
+                loader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            Parent root = loader.getRoot();
+            primaryStage.setScene(new Scene(root));
+        });
+
+        GoToChooseEventButton.setOnAction(event -> {
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("choose_event.fxml"));
 
             try {
                 loader.load();

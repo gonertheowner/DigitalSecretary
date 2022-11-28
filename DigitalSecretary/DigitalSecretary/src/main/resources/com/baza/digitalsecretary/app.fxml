@@ -15,6 +15,6 @@
       <ListView fx:id="СomingEventsListBox" layoutX="54.0" layoutY="286.0" prefHeight="200.0" prefWidth="567.0" />
       <Button fx:id="GoToAddEventButton" layoutX="683.0" layoutY="461.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Добавить событие" />
       <Button fx:id="ExitButton" layoutX="894.0" layoutY="14.0" mnemonicParsing="false" text="Выйти" />
-      <Button layoutX="683.0" layoutY="423.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Изменить событие" />
+      <Button fx:id="GoToChooseEventButton" layoutX="683.0" layoutY="423.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Изменить событие" />
    </children>
 </AnchorPane>
