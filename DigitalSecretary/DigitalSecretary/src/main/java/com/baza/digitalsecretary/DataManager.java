@@ -31,18 +31,11 @@ public class DataManager {
         }
     }
 
-    private static String isIdValid(String id, String tableName) {
+    public static String isIdValid(String id, String tableName) throws SQLException {
         List<String> ids = new ArrayList<>();
-        try {
-            var statement = DataManager.connection.prepareStatement("SELECT * FROM ?");
-            statement.setString(1, tableName);
-
-            var selectionSet = statement.executeQuery();
-            while (selectionSet.next()) {
-                ids.add(selectionSet.getString(1));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        var selectionSet = selectAll(tableName);
+        while (selectionSet.next()) {
+            ids.add(selectionSet.getString(1));
         }
 
         String resultMessage;
@@ -59,21 +52,16 @@ public class DataManager {
         return resultMessage;
     }
 
-    public static void selectAll(String tableName) {
-        boolean flag;
-
-         try {
-             if (tableName == null) {
-                 flag = false;
-                 // OurClassException
-             }
-             var statement = connection.prepareStatement("SELECT * FROM ?");
-             statement.setString(1, tableName);
-         }
-         catch (SQLException e) {
-             // OurClassException
-             throw new RuntimeException(e);
-         }
+    private static ResultSet selectAll(String tableName) {
+        ResultSet resultSet;
+        try {
+            String query = "SELECT * FROM " + tableName;
+            resultSet =  connection.prepareStatement(query).executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException("Несуществующее имя таблицы: " + tableName);
+        }
+        return resultSet;
     }
 
     public static boolean deleteUser(String tableName, int index) {
@@ -92,6 +80,7 @@ public class DataManager {
         }
         return flag;
     }
+
     public static void addUser(User user) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("Insert Into Users (login, password) VALUES (?,?)");

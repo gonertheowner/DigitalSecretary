@@ -52,29 +52,15 @@ public class ChooseEventController {
         EventsListBox.setItems(allEventsList);
 
         GoToChangeButton.setOnAction(event -> {
-            List<String> ids = new ArrayList<>();
+            String message;
             try {
-                var selectionSet = DataManager.connection.prepareStatement("SELECT * FROM events").executeQuery();
-                while (selectionSet.next()) {
-                    ids.add(selectionSet.getString(1));
-                }
+                message = DataManager.isIdValid(IdField.getText(), "events");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
 
-            String message;
-            if (IdField.getText().equals("")) {
-                message = "Please, input event id first";
-            } else if (DataManager.parseStringToInteger(IdField.getText()) == -1) {
-                message = "Please, input a number";
-            } else if (!(ids.contains(IdField.getText()))) {
-                message = "Please, input an existing id";
-            } else {
-                message = "Success";
-                ChangeEventController.setSelectedEventId(IdField.getText());
-            }
-
-            if (message.equals("Success")) {
+            if (message.matches("Valid id = \\d")) {
+                ChangeEventController.setSelectedEventId(message.split(" ")[3]);
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("change_event.fxml"));
 
