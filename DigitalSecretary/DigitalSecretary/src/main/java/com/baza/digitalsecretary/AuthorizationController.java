@@ -73,10 +73,9 @@ public class AuthorizationController {
             }
             if (DataManager.searchUser(user)) {
                 resultOfCheck="success";
+                login = LogInField.getText();
             }
 
-            ErrorText.setText(resultOfCheck);
-            
             if (resultOfCheck.equals("success")) {
                 ErrorText.setText(resultOfCheck);
                 FXMLLoader loader = new FXMLLoader();
@@ -90,6 +89,8 @@ public class AuthorizationController {
 
                 Parent root = loader.getRoot();
                 primaryStage.setScene(new Scene(root));
+            } else {
+                ErrorText.setText(resultOfCheck);
             }
         });
 
