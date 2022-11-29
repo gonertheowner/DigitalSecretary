@@ -13,6 +13,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,7 +42,7 @@ public class AppController {
     private Button GoToChooseEventButton;
 
     @FXML
-    void initialize() {
+    void initialize() throws SQLException {
 
         //Обновление даты в приложении
         Date today = new Date();
@@ -48,9 +50,12 @@ public class AppController {
         TodayText.setText(formatToday.format(today));
 
         ObservableList<String> allEventsList = FXCollections.observableArrayList();
-        allEventsList.add("17.11.2022 категория пррррррррррррррррррррррррррррррррррррррррррр");
-        allEventsList.add("24.02.2022 СВО Начало");
-        allEventsList.add("18.12.2020 Дора Релиз альбома");
+        var statement = DataManager.connection.prepareStatement("SELECT * FROM events WHERE login = ?");
+        statement.setString(1, AuthorizationController.getLogin());
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            allEventsList.add(resultSet.getString(5) + " " + resultSet.getString(4) + " " + resultSet.getString(2) + " " + resultSet.getString(3));
+        }
 
         TodayEventListBox.setItems(allEventsList);
 
