@@ -1,7 +1,10 @@
 package com.baza.digitalsecretary;
 
 import java.sql.*;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -71,21 +74,14 @@ public class DataManager {
         statement.execute();
     }
 
-    public static boolean deleteUser(String tableName, int index) {
-        boolean flag;
-        if (tableName == null) {
-            flag = false;
-            // OurClassException
-        }
-
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM users WHERE id=?");
-            preparedStatement.setInt(1, index);
-            flag = preparedStatement.executeUpdate() != 0;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return flag;
+    public static void addingEvent(LocalDate date, String category, String title, String description) throws SQLException {
+        var statement = connection.prepareStatement("INSERT INTO events (title, discription, category, date, login) VALUES(?, ?, ?, ?, ?)");
+        statement.setString(1, title);
+        statement.setString(2, description);
+        statement.setString(3, category);
+        statement.setObject(4, date);
+        statement.setString(5, AuthorizationController.getLogin());
+        statement.execute();
     }
 
     public static void addUser(User user) {

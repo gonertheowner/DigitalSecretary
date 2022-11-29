@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 import static com.baza.digitalsecretary.DigitalSecretaryApp.primaryStage;
@@ -37,11 +38,8 @@ public class AddingEventController {
 
     @FXML
     void initialize() {
-
         DateField.setValue(LocalDate.now());
-        //Переход обратно в главное окно
         BackToAppButton.setOnAction(event -> {
-
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("app.fxml"));
 
@@ -56,10 +54,17 @@ public class AddingEventController {
         });
 
         AddEventButton.setOnAction(event -> {
-            String date = DateField.getValue().toString();//формат 2012-02-23
+            var date = DateField.getValue();//формат 2012-02-23
             String category = CategoryField.getText();
             String title = TitleField.getText();
             String description = DescriptionField.getText();
+
+            try {
+                DataManager.addingEvent(date, category, title, description);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
             //Функция добавляющая событие и возрощающая "success" в случае успеха
             //или ошибку
             String resultOfCheck = "success";

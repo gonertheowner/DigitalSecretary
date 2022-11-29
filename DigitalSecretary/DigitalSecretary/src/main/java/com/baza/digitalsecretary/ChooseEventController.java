@@ -42,7 +42,8 @@ public class ChooseEventController {
     @FXML
     void initialize() throws SQLException {
         ObservableList<String> allEventsList = FXCollections.observableArrayList();
-        var statement = DataManager.connection.prepareStatement("SELECT * FROM events");
+        var statement = DataManager.connection.prepareStatement("SELECT * FROM events WHERE login = ?");
+        statement.setString(1, AuthorizationController.getLogin());
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
             allEventsList.add(resultSet.getString(1) + " " + resultSet.getString(5) + " " + resultSet.getString(2) + " " + resultSet.getString(4) + " " + resultSet.getString(3));

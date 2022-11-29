@@ -93,8 +93,8 @@ public class AuthorizationController {
             }
         });
 
-        SkipButton.setOnAction(event ->{
-
+        SkipButton.setOnAction(event -> {
+            login = "admin";
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("app.fxml"));
 
