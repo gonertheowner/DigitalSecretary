@@ -16,7 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-import static com.baza.digitalsecretary.HelloApplication.primaryStage;
+import static com.baza.digitalsecretary.DigitalSecretaryApp.primaryStage;
 
 public class ChangeEventController {
 
@@ -62,7 +62,7 @@ public class ChangeEventController {
         ChangeEventButton.setOnAction(event -> {
             //взять все поля и перезаписать событие
             String message = "success";
-            if (message == "success") {
+            if (message.equals("success")) {
                 ErrorText.setTextFill(Color.color(0, 0.70, 0));
                 ErrorText.setText("Изменение прошло успешно");
             } else {
@@ -72,7 +72,6 @@ public class ChangeEventController {
         });
 
         BackToChooseEventButton.setOnAction(event -> {
-
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("choose_event.fxml"));
 
@@ -85,7 +84,6 @@ public class ChangeEventController {
             Parent root = loader.getRoot();
             primaryStage.setScene(new Scene(root));
         });
-
     }
 
 }

@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.baza.digitalsecretary.HelloApplication.primaryStage;
+import static com.baza.digitalsecretary.DigitalSecretaryApp.primaryStage;
 
 public class ChooseEventController {
 

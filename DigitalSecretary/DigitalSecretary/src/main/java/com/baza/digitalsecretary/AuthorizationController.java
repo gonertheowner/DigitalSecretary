@@ -7,11 +7,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import static com.baza.digitalsecretary.HelloApplication.primaryStage;
+import static com.baza.digitalsecretary.DigitalSecretaryApp.primaryStage;
 
 public class AuthorizationController {
 

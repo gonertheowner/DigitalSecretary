@@ -1,6 +1,5 @@
 package com.baza.digitalsecretary;
 
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,17 +8,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
-import static com.baza.digitalsecretary.HelloApplication.primaryStage;
+import static com.baza.digitalsecretary.DigitalSecretaryApp.primaryStage;
 
 public class AppController {
 

@@ -6,12 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.time.LocalDate;
 
-import static com.baza.digitalsecretary.HelloApplication.primaryStage;
+import static com.baza.digitalsecretary.DigitalSecretaryApp.primaryStage;
 
 public class AddingEventController {
 
