@@ -67,6 +67,7 @@ public class ChooseEventController {
                 message = "Please, input an existing id";
             } else {
                 message = "Success";
+                ChangeEventController.setSelectedEventId(IdField.getText());
             }
 
             if (message.equals("Success")) {

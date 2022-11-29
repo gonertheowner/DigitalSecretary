@@ -12,6 +12,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 import static com.baza.digitalsecretary.HelloApplication.primaryStage;
@@ -46,15 +48,16 @@ public class ChangeEventController {
     }
 
     @FXML
-    void initialize() {
-
-        //нужно получить поля события, id которого был выбран в предыдущем окне
-        //и установить значения как дальше
-        DateField.setValue(LocalDate.of(2000, 1, 1));
-        TitleField.setText("название");
-        CategoryField.setText("категория");
-        DescriptionField.setText("описание");
-
+    void initialize() throws SQLException {
+        var statement = DataManager.connection.prepareStatement("SELECT * FROM events WHERE id = ?");
+        statement.setInt(1, Integer.parseInt(selectedEventId));
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            DateField.setValue(LocalDate.parse(resultSet.getString(5)));
+            TitleField.setText(resultSet.getString(2));
+            CategoryField.setText(resultSet.getString(4));
+            DescriptionField.setText(resultSet.getString(3));
+        }
 
         ChangeEventButton.setOnAction(event -> {
             //взять все поля и перезаписать событие
