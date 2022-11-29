@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 
@@ -47,44 +48,14 @@ public class RegistrationController {
         });
 
         RegisterButton.setOnAction(event ->{
-            String resultOfCheck = "success";
-            User user=new User(LoginField.getText(),PasswordField.getText());
-            if (!FieldsChecker.isValidPassword(PasswordField.getText()).equals("Success")){
-                resultOfCheck=FieldsChecker.isValidPassword(PasswordField.getText());
-            }
-            if (!FieldsChecker.isValidLogin(LoginField.getText()).equals("Success")){
-                resultOfCheck=FieldsChecker.isValidLogin(LoginField.getText());
-            }
-            if (DataManager.searchByLogin(user)){
-                resultOfCheck="User with this username exists";
-            }
-            if (LoginField.getText().length()==0){
-                resultOfCheck="No login";
-            }
-            if (PasswordField.getText().length()==0){
-                resultOfCheck="No Password";
-            }
-            if (!DataManager.searchByLogin(user) && PasswordField.getText().length()!=0 && LoginField.getText().length()!=0
-                    && FieldsChecker.isValidPassword(PasswordField.getText()).equals("Success")
-                        && FieldsChecker.isValidLogin(LoginField.getText()).equals("Success")) {
-                resultOfCheck="success";
-                DataManager.addUser(user);
-            }
-            ErrorText.setText(resultOfCheck);
+
+            String resultOfCheck = DataManager.AddUser(LoginField.getText(), PasswordField.getText());
+
             if (resultOfCheck == "success") {
-                ErrorText.setText(resultOfCheck);
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("app.fxml"));
-
-                try {
-                    loader.load();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-                Parent root = loader.getRoot();
-                primaryStage.setScene(new Scene(root));
+                ErrorText.setTextFill(Color.color(0, 0.7, 0));
+                ErrorText.setText("Регистрация прошла успешно");
             } else {
+                ErrorText.setTextFill(Color.color(1, 0, 0));
                 ErrorText.setText(resultOfCheck);
             }
         });

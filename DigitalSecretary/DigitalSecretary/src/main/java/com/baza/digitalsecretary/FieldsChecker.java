@@ -4,34 +4,37 @@ import java.util.regex.*;
 
 public class FieldsChecker {
     public static String isValidPassword(String password) {
-        String regex = "(\\d[a-z, A-Z]|[a-z, A-Z]\\d)";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(password);
         for (int i = 0; i < password.length(); i++) {
             if (Character.UnicodeBlock.of(password.charAt(i)).equals(Character.UnicodeBlock.CYRILLIC)) {
-                return "Consist of cyrillic";
+                return "Пароль содержит кириллицу";
             }
         }
         if (password.length()<6 || password.length()>20) {
-            return "password must consist 6-20 symbols";
+            return "Пароль должен содержать от 6 до 20 символов";
         }
         if (password.indexOf(" ")!=-1) {
-            return "password consist space";
+            return "Пароль содержит пробел";
         }
+        String regex = "(\\d[a-z, A-Z]|[a-z, A-Z]\\d)";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(password);
         if (m.find()) {
-            return "Success";
+            return "success";
         }
         else {
             return "the password does not meet the condition";
         }
     }
     public static String isValidLogin (String login) {
+        if (login.length() < 1) {
+            return "Логин должен содержать хотя бы один символ";
+        }
         if (login.indexOf(" ")!=-1) {
-            return "login consist space";
+            return "Логин содержит пробел";
         }
         if (login.length()>40){
-            return "login must consist less than 40 symbols";
+            return "Логин должен содержать меньше 40 символов";
         }
-        return "Success";
+        return "success";
     }
 }

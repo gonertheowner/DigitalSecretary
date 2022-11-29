@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class DataManager {
@@ -33,7 +35,6 @@ public class DataManager {
             return -1;
         }
     }
-
     public static String isIdValid(String id, String tableName) throws SQLException {
         List<String> ids = new ArrayList<>();
         var selectionSet = selectAll(tableName);
@@ -54,7 +55,6 @@ public class DataManager {
 
         return resultMessage;
     }
-
     public static ResultSet selectAll(String tableName) {
         ResultSet resultSet;
         try {
@@ -66,14 +66,12 @@ public class DataManager {
         }
         return resultSet;
     }
-
     public static void deleteEvent(String id) throws SQLException {
         var statement = connection.prepareStatement("DELETE FROM events WHERE id = ?");
 
         statement.setInt(1, Integer.parseInt(id));
         statement.execute();
     }
-
     public static void addingEvent(LocalDate date, String category, String title, String description) throws SQLException {
         var statement = connection.prepareStatement("INSERT INTO events (title, discription, category, date, login) VALUES(?, ?, ?, ?, ?)");
         statement.setString(1, title);
@@ -83,7 +81,6 @@ public class DataManager {
         statement.setString(5, AuthorizationController.getLogin());
         statement.execute();
     }
-
     public static void addUser(User user) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("Insert Into Users (login, password) VALUES (?,?)");
@@ -142,6 +139,53 @@ public class DataManager {
             throw new RuntimeException(e);
         }
         return flag;
+    }
+
+    public static String AddUser(String login, String password)
+    {
+        if (login.length() < 1) return "Логин должен содержать хотя бы один символ";
+
+        if (password.length() < 1) return "Пароль должен содержать хотя бы один символ";
+
+        if (password.length() < 6 || password.length() > 20) return "Пароль должен содержать от 6 до 20 символов";
+
+        if (login.length() > 40) return "Логин должен содержать меньше 40 символов";
+
+        if (password.contains(" ")) return "Пароль содержит пробел";
+
+        if (login.contains(" ")) return "Логин содержит пробел";
+
+        for (int i = 0; i < login.length(); i++) {
+            if (Character.UnicodeBlock.of(login.charAt(i)).equals(Character.UnicodeBlock.CYRILLIC)) {
+                return "Логин содержит кириллицу";
+            }
+        }
+
+        for (int i = 0; i < password.length(); i++) {
+            if (Character.UnicodeBlock.of(password.charAt(i)).equals(Character.UnicodeBlock.CYRILLIC)) {
+                return "Пароль содержит кириллицу";
+            }
+        }
+
+        String regex = "(\\d[a-z, A-Z]|[a-z, A-Z]\\d)";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(password);
+        if (!m.find()) return "Пароль должен содержать латинские буквы";
+
+        User user = new User(login, password);
+        if (DataManager.searchByLogin(user)) return "Логин уже занят";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("Insert Into Users (login, password) VALUES (?,?)");
+            preparedStatement.setString(1, login);
+            preparedStatement.setString(2, password);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            // OurClassException
+            throw new RuntimeException(e);
+        }
+
+        return "success";
     }
 }
 
