@@ -37,6 +37,10 @@ public class ChooseEventController {
     @FXML
     private ListView<String> EventsListBox;
 
+    public String getEventId() {
+        return IdField.getText();
+    }
+
     @FXML
     void initialize() throws SQLException {
         ObservableList<String> allEventsList = FXCollections.observableArrayList();
