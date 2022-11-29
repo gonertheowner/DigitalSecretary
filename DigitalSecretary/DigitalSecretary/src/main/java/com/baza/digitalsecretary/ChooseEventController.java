@@ -16,8 +16,6 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.baza.digitalsecretary.DigitalSecretaryApp.primaryStage;
 
@@ -60,7 +58,7 @@ public class ChooseEventController {
             }
 
             if (message.matches("Valid id = \\d")) {
-                ChangeEventController.setSelectedEventId(message.split(" ")[3]);
+                ChangeEventController.setSelectedEventId(IdField.getText());
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("change_event.fxml"));
 
@@ -79,35 +77,17 @@ public class ChooseEventController {
         });
 
         deleteEventButton.setOnAction(actionEvent -> {
-            List<String> ids = new ArrayList<>();
+            String message;
             try {
-                var selectionSet = DataManager.connection.prepareStatement("SELECT * FROM events").executeQuery();
-                while (selectionSet.next()) {
-                    ids.add(selectionSet.getString(1));
-                }
+                message = DataManager.isIdValid(IdField.getText(), "events");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
 
-            String message;
-            if (IdField.getText().equals("")) {
-                message = "Please, input event id first";
-            } else if (DataManager.parseStringToInteger(IdField.getText()) == -1) {
-                message = "Please, input a number";
-            } else if (!(ids.contains(IdField.getText()))) {
-                message = "Please, input an existing id";
-            } else {
-                message = "Success";
-            }
-
-            if (message.equals("Success")) {
+            if (message.matches("Valid id = \\d")) {
                 PreparedStatement st;
                 try {
                     st = DataManager.connection.prepareStatement("DELETE FROM events WHERE id = ?");
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
                     st.setInt(1, Integer.parseInt(IdField.getText()));
                     st.execute();
                 } catch (SQLException e) {
