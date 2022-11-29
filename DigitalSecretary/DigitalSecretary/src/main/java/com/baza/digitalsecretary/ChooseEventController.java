@@ -13,6 +13,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import static com.baza.digitalsecretary.HelloApplication.primaryStage;
 
@@ -34,14 +36,13 @@ public class ChooseEventController {
     private ListView<String> EventsListBox;
 
     @FXML
-    void initialize() {
-
-        //нужно получить List строк событий для id пользователя который вошел
-        //и добавить их в allEventsList следующим образом с id события
+    void initialize() throws SQLException {
         ObservableList<String> allEventsList = FXCollections.observableArrayList();
-        allEventsList.add("1 01.01.2000 название категория описание");
-        allEventsList.add("2 01.01.2000 название категория описание");
-        allEventsList.add("3 01.01.2000 название категория описание");
+        var statement = DataManager.connection.prepareStatement("SELECT * FROM events");
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            allEventsList.add(resultSet.getString(1) + " " + resultSet.getString(5) + " " + resultSet.getString(2) + " " + resultSet.getString(4) + " " + resultSet.getString(3));
+        }
         EventsListBox.setItems(allEventsList);
 
         GoToChangeButton.setOnAction(event -> {
