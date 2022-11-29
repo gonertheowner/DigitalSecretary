@@ -52,7 +52,7 @@ public class DataManager {
         return resultMessage;
     }
 
-    private static ResultSet selectAll(String tableName) {
+    public static ResultSet selectAll(String tableName) {
         ResultSet resultSet;
         try {
             String query = "SELECT * FROM " + tableName;
@@ -62,6 +62,16 @@ public class DataManager {
             throw new RuntimeException("Несуществующее имя таблицы: " + tableName);
         }
         return resultSet;
+    }
+
+    public static void delete(String id, String tableName) throws SQLException {
+        var idColumnName = selectAll(tableName).getMetaData().getColumnName(1);
+        var statement = connection.prepareStatement("DELETE FROM ? WHERE ? = ?");
+
+        statement.setString(1, tableName);
+        statement.setString(2, idColumnName);
+        statement.setInt(3, Integer.parseInt(id));
+        statement.execute();
     }
 
     public static boolean deleteUser(String tableName, int index) {
