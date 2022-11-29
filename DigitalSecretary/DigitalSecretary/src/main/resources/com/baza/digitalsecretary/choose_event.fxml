@@ -15,7 +15,7 @@
       <TextField fx:id="IdField" layoutX="34.0" layoutY="323.0" prefHeight="26.0" prefWidth="178.0" />
       <Label layoutX="34.0" layoutY="306.0" text="Введите id для выбора события:" />
       <Button fx:id="GoToChangeButton" layoutX="34.0" layoutY="357.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="178.0" text="Перейти к изменению" />
-      <Label fx:id="ErrorText" alignment="CENTER" layoutX="252.0" layoutY="327.0" prefHeight="18.0" prefWidth="178.0" />
+      <Label fx:id="ErrorText" layoutX="252.0" layoutY="327.0" prefHeight="18.0" prefWidth="395.0" />
       <Button fx:id="deleteEventButton" layoutX="220.0" layoutY="358.0" mnemonicParsing="false" text="Удалить событие" />
     </children>
 </AnchorPane>

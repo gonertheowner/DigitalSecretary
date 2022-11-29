@@ -1,5 +1,8 @@
 package com.baza.digitalsecretary;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.*;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -212,5 +215,49 @@ public class DataManager {
             throw new RuntimeException(e);
         }
     }
-}
+    public static ObservableList<String> GetAllEventsList() {
+        try{
+            ObservableList<String> allEventsList = FXCollections.observableArrayList();
+            var statement = connection.prepareStatement("SELECT * FROM events WHERE login = ?");
+            statement.setString(1, AuthorizationController.getLogin());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                allEventsList.add(resultSet.getString(1) + " " + resultSet.getString(5) + " " + resultSet.getString(2) + " " + resultSet.getString(4) + " " + resultSet.getString(3));
+            }
+            return allEventsList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
+    }
+    public static String GetCheckEventIdInChoose(String id) {
+
+        if (id.equals("")) return "Пожалуйста, введите id";
+
+        if (parseStringToInteger(id) == -1) return "Пожалуйста, введите целое число";
+
+        List<String> ids = new ArrayList<>();
+        try {
+            var selectionSet = selectAll("events");
+            while (selectionSet.next()) {
+                ids.add(selectionSet.getString(1));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (!ids.contains(id)) return "Пожалуйста, введите существующий id";
+
+        return "success";
+    }
+    public static void DeleteEvent(String id) {
+        try {
+            var statement = connection.prepareStatement("DELETE FROM events WHERE id = ?");
+
+            statement.setInt(1, Integer.parseInt(id));
+            statement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}

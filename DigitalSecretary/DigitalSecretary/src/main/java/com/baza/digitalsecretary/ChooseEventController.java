@@ -41,17 +41,30 @@ public class ChooseEventController {
 
     @FXML
     void initialize() throws SQLException {
-        ObservableList<String> allEventsList = FXCollections.observableArrayList();
-        var statement = DataManager.connection.prepareStatement("SELECT * FROM events WHERE login = ?");
-        statement.setString(1, AuthorizationController.getLogin());
-        ResultSet resultSet = statement.executeQuery();
-        while (resultSet.next()) {
-            allEventsList.add(resultSet.getString(1) + " " + resultSet.getString(5) + " " + resultSet.getString(2) + " " + resultSet.getString(4) + " " + resultSet.getString(3));
-        }
+        ObservableList<String> allEventsList = DataManager.GetAllEventsList();
         EventsListBox.setItems(allEventsList);
 
         GoToChangeButton.setOnAction(event -> {
-            String message;
+            String resultOfCheck = DataManager.GetCheckEventIdInChoose(IdField.getText());
+            if (resultOfCheck == "success") {
+                ChangeEventController.setSelectedEventId(IdField.getText());
+
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("change_event.fxml"));
+
+                try {
+                    loader.load();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                Parent root = loader.getRoot();
+                primaryStage.setScene(new Scene(root));
+            } else {
+                ErrorText.setTextFill(Color.color(1, 0, 0));
+                ErrorText.setText(resultOfCheck);
+            }
+            /*String message;
             try {
                 message = DataManager.isIdValid(IdField.getText(), "events");
             } catch (SQLException e) {
@@ -74,11 +87,22 @@ public class ChooseEventController {
             } else {
                 ErrorText.setTextFill(Color.color(1, 0, 0));
                 ErrorText.setText(message);
-            }
+            }*/
         });
 
         deleteEventButton.setOnAction(actionEvent -> {
-            String message;
+            String resultOfCheck = DataManager.GetCheckEventIdInChoose(IdField.getText());
+            if (resultOfCheck == "success") {
+                DataManager.DeleteEvent(IdField.getText());
+                ObservableList<String> allEventsList2 = DataManager.GetAllEventsList();//может исправить ?
+                EventsListBox.setItems(allEventsList2);
+                ErrorText.setTextFill(Color.color(0, 0.7, 0));
+                ErrorText.setText("Удаление прошло успешно");
+            } else {
+                ErrorText.setTextFill(Color.color(1, 0, 0));
+                ErrorText.setText(resultOfCheck);
+            }
+            /*String message;
             try {
                 message = DataManager.isIdValid(IdField.getText(), "events");
             } catch (SQLException e) {
@@ -94,7 +118,7 @@ public class ChooseEventController {
             } else {
                 ErrorText.setTextFill(Color.color(1, 0, 0));
                 ErrorText.setText(message);
-            }
+            }*/
         });
 
         BackToAppButton.setOnAction(event -> {
