@@ -39,6 +39,12 @@ public class ChangeEventController {
     @FXML
     private TextField TitleField;
 
+    private static String selectedEventId;
+
+    public static void setSelectedEventId(String selectedEventId) {
+        ChangeEventController.selectedEventId = selectedEventId;
+    }
+
     @FXML
     void initialize() {
 
