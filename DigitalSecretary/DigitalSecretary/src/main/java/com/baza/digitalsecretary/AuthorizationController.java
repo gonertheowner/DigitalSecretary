@@ -33,6 +33,12 @@ public class AuthorizationController {
     @FXML
     private Button SkipButton;
 
+    private static String login;
+
+    public static String getLogin() {
+        return login;
+    }
+
     @FXML
     void initialize(){
         GoToRegistrationButton.setOnAction(event ->{
