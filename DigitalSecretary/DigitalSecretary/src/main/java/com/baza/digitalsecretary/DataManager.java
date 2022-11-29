@@ -21,6 +21,14 @@ public class DataManager {
         }
     }
 
+    public static int parseStringToInteger(String str) {
+        if (str.matches("\\d+")) {
+            return Integer.parseInt(str);
+        } else {
+            return -1;
+        }
+    }
+
     public static void selectAll(String tableName) {
         boolean flag;
 

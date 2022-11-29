@@ -15,6 +15,8 @@ import javafx.scene.paint.Color;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.baza.digitalsecretary.HelloApplication.primaryStage;
 
@@ -46,10 +48,28 @@ public class ChooseEventController {
         EventsListBox.setItems(allEventsList);
 
         GoToChangeButton.setOnAction(event -> {
-            //В message записывается результат проверки IdField.getText()
-            //на существование такого id события и корректности int
-            String message = "success";
-            if (message == "success") {
+            List<String> ids = new ArrayList<>();
+            try {
+                var selectionSet = DataManager.connection.prepareStatement("SELECT * FROM events").executeQuery();
+                while (selectionSet.next()) {
+                    ids.add(selectionSet.getString(1));
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            String message;
+            if (IdField.getText().equals("")) {
+                message = "Please, input event id first";
+            } else if (DataManager.parseStringToInteger(IdField.getText()) == -1) {
+                message = "Please, input a number";
+            } else if (!(ids.contains(IdField.getText()))) {
+                message = "Please, input an existing id";
+            } else {
+                message = "Success";
+            }
+
+            if (message.equals("Success")) {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("change_event.fxml"));
 
@@ -65,11 +85,9 @@ public class ChooseEventController {
                 ErrorText.setTextFill(Color.color(1, 0, 0));
                 ErrorText.setText(message);
             }
-
         });
 
         BackToAppButton.setOnAction(event -> {
-
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("app.fxml"));
 
@@ -82,6 +100,5 @@ public class ChooseEventController {
             Parent root = loader.getRoot();
             primaryStage.setScene(new Scene(root));
         });
-
     }
 }
