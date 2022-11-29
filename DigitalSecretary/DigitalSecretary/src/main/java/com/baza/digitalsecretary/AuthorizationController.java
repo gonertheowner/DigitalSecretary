@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 
@@ -56,27 +57,9 @@ public class AuthorizationController {
         });
 
         SignInButton.setOnAction(event ->{
-            String resultOfCheck="success";
-            User user=new User(LogInField.getText(), PasswordField.getText());
-            if (!DataManager.searchByLogin(user)){
-                resultOfCheck="Not found user with this login. Go registration";
-            }
-            if (DataManager.searchByLogin(user) && !DataManager.searchUser(user)){
-                resultOfCheck="Uncorrected password";
-            }
-            if (PasswordField.getText().length()==0){
-                resultOfCheck="No password";
-            }
-            if (LogInField.getText().length()==0){
-                resultOfCheck="No login";
-            }
-            if (DataManager.searchUser(user)) {
-                resultOfCheck="success";
-                login = LogInField.getText();
-            }
+            String resultOfCheck = DataManager.CheckAuthorization(LogInField.getText(), PasswordField.getText());
 
             if (resultOfCheck.equals("success")) {
-                ErrorText.setText(resultOfCheck);
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("app.fxml"));
 
@@ -89,6 +72,7 @@ public class AuthorizationController {
                 Parent root = loader.getRoot();
                 primaryStage.setScene(new Scene(root));
             } else {
+                ErrorText.setTextFill(Color.color(1, 0, 0));
                 ErrorText.setText(resultOfCheck);
             }
         });

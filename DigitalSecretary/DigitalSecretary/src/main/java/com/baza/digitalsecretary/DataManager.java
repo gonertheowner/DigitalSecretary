@@ -81,17 +81,6 @@ public class DataManager {
         statement.setString(5, AuthorizationController.getLogin());
         statement.execute();
     }
-    public static void addUser(User user) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("Insert Into Users (login, password) VALUES (?,?)");
-            preparedStatement.setString(1, user.getLogin());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            // OurClassException
-            throw new RuntimeException(e);
-        }
-    }
     public static boolean updateUser(int index, User user) {
         boolean flag;
         try {
@@ -140,9 +129,7 @@ public class DataManager {
         }
         return flag;
     }
-
-    public static String AddUser(String login, String password)
-    {
+    public static String AddUser(String login, String password) {
         if (login.length() < 1) return "Логин должен содержать хотя бы один символ";
 
         if (password.length() < 1) return "Пароль должен содержать хотя бы один символ";
@@ -184,6 +171,19 @@ public class DataManager {
             // OurClassException
             throw new RuntimeException(e);
         }
+
+        return "success";
+    }
+    public static String CheckAuthorization(String login, String password) {
+        if (login.length() == 0) return "Логин не введен";
+
+        if (password.length() == 0) return "Пароль не введен";
+
+        User user = new User(login, password);
+
+        if (!DataManager.searchByLogin(user)) return "Логин еще не зарегистрирован";
+
+        if (!DataManager.searchUser(user)) return "Неверный пароль";
 
         return "success";
     }

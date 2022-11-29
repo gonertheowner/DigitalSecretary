@@ -33,7 +33,6 @@ public class RegistrationController {
     @FXML
     void initialize() {
         BackToAuthorizationButton.setOnAction(event -> {
-
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("authorization.fxml"));
 
@@ -48,7 +47,6 @@ public class RegistrationController {
         });
 
         RegisterButton.setOnAction(event ->{
-
             String resultOfCheck = DataManager.AddUser(LoginField.getText(), PasswordField.getText());
 
             if (resultOfCheck == "success") {
