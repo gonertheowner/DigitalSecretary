@@ -64,13 +64,10 @@ public class DataManager {
         return resultSet;
     }
 
-    public static void delete(String id, String tableName) throws SQLException {
-        var idColumnName = selectAll(tableName).getMetaData().getColumnName(1);
-        var statement = connection.prepareStatement("DELETE FROM ? WHERE ? = ?");
+    public static void deleteEvent(String id) throws SQLException {
+        var statement = connection.prepareStatement("DELETE FROM events WHERE id = ?");
 
-        statement.setString(1, tableName);
-        statement.setString(2, idColumnName);
-        statement.setInt(3, Integer.parseInt(id));
+        statement.setInt(1, Integer.parseInt(id));
         statement.execute();
     }
 

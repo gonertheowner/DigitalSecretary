@@ -85,11 +85,8 @@ public class ChooseEventController {
             }
 
             if (message.matches("Valid id = \\d")) {
-                PreparedStatement st;
                 try {
-                    st = DataManager.connection.prepareStatement("DELETE FROM events WHERE id = ?");
-                    st.setInt(1, Integer.parseInt(IdField.getText()));
-                    st.execute();
+                    DataManager.deleteEvent(IdField.getText());
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
