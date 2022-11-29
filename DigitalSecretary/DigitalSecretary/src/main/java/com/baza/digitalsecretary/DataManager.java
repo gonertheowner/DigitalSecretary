@@ -1,6 +1,8 @@
 package com.baza.digitalsecretary;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DataManager {
@@ -27,6 +29,34 @@ public class DataManager {
         } else {
             return -1;
         }
+    }
+
+    private static String isIdValid(String id, String tableName) {
+        List<String> ids = new ArrayList<>();
+        try {
+            var statement = DataManager.connection.prepareStatement("SELECT * FROM ?");
+            statement.setString(1, tableName);
+
+            var selectionSet = statement.executeQuery();
+            while (selectionSet.next()) {
+                ids.add(selectionSet.getString(1));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        String resultMessage;
+        if (id.equals("")) {
+            resultMessage = "Please, input event id first";
+        } else if (DataManager.parseStringToInteger(id) == -1) {
+            resultMessage = "Please, input a number";
+        } else if (!(ids.contains(id))) {
+            resultMessage = "Please, input an existing id";
+        } else {
+            resultMessage = "Valid id = " + id;
+        }
+
+        return resultMessage;
     }
 
     public static void selectAll(String tableName) {
