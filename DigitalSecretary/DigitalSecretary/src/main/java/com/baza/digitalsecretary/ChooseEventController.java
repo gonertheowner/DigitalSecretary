@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -36,6 +37,9 @@ public class ChooseEventController {
 
     @FXML
     private ListView<String> EventsListBox;
+
+    @FXML
+    private Button deleteEventButton;
 
     @FXML
     void initialize() throws SQLException {
@@ -82,6 +86,47 @@ public class ChooseEventController {
 
                 Parent root = loader.getRoot();
                 primaryStage.setScene(new Scene(root));
+            } else {
+                ErrorText.setTextFill(Color.color(1, 0, 0));
+                ErrorText.setText(message);
+            }
+        });
+
+        deleteEventButton.setOnAction(actionEvent -> {
+            List<String> ids = new ArrayList<>();
+            try {
+                var selectionSet = DataManager.connection.prepareStatement("SELECT * FROM events").executeQuery();
+                while (selectionSet.next()) {
+                    ids.add(selectionSet.getString(1));
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            String message;
+            if (IdField.getText().equals("")) {
+                message = "Please, input event id first";
+            } else if (DataManager.parseStringToInteger(IdField.getText()) == -1) {
+                message = "Please, input a number";
+            } else if (!(ids.contains(IdField.getText()))) {
+                message = "Please, input an existing id";
+            } else {
+                message = "Success";
+            }
+
+            if (message.equals("Success")) {
+                PreparedStatement st;
+                try {
+                    st = DataManager.connection.prepareStatement("DELETE FROM events WHERE id = ?");
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    st.setInt(1, Integer.parseInt(IdField.getText()));
+                    st.execute();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             } else {
                 ErrorText.setTextFill(Color.color(1, 0, 0));
                 ErrorText.setText(message);
