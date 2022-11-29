@@ -39,6 +39,7 @@ public class AddingEventController {
     @FXML
     void initialize() {
         DateField.setValue(LocalDate.now());
+
         BackToAppButton.setOnAction(event -> {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("app.fxml"));
@@ -54,20 +55,7 @@ public class AddingEventController {
         });
 
         AddEventButton.setOnAction(event -> {
-            var date = DateField.getValue();//формат 2012-02-23
-            String category = CategoryField.getText();
-            String title = TitleField.getText();
-            String description = DescriptionField.getText();
-
-            try {
-                DataManager.addingEvent(date, category, title, description);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
-            //Функция добавляющая событие и возрощающая "success" в случае успеха
-            //или ошибку
-            String resultOfCheck = "success";
+            String resultOfCheck = DataManager.AddEvent(DateField.getValue(), CategoryField.getText(), TitleField.getText(), DescriptionField.getText());
             if (resultOfCheck == "success"){
                 ErrorText.setTextFill(Color.color(0, 0.70, 0));
                 ErrorText.setText("Добавление прошло успешно");

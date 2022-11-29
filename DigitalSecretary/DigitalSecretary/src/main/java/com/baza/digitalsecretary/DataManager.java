@@ -130,6 +130,23 @@ public class DataManager {
         return flag;
     }
     public static String AddUser(String login, String password) {
+        String resultOfCheck = CheckRegistration(login, password);
+
+        if (resultOfCheck != "success") return resultOfCheck;
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Users (login, password) VALUES (?,?)");
+            preparedStatement.setString(1, login);
+            preparedStatement.setString(2, password);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            // OurClassException
+            throw new RuntimeException(e);
+        }
+
+        return "success";
+    }
+    public static String CheckRegistration(String login, String password) {
         if (login.length() < 1) return "Логин должен содержать хотя бы один символ";
 
         if (password.length() < 1) return "Пароль должен содержать хотя бы один символ";
@@ -162,16 +179,6 @@ public class DataManager {
         User user = new User(login, password);
         if (DataManager.searchByLogin(user)) return "Логин уже занят";
 
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("Insert Into Users (login, password) VALUES (?,?)");
-            preparedStatement.setString(1, login);
-            preparedStatement.setString(2, password);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            // OurClassException
-            throw new RuntimeException(e);
-        }
-
         return "success";
     }
     public static String CheckAuthorization(String login, String password) {
@@ -186,6 +193,24 @@ public class DataManager {
         if (!DataManager.searchUser(user)) return "Неверный пароль";
 
         return "success";
+    }
+    public static String AddEvent(LocalDate date, String category, String title, String description) {
+        try{
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO events (title, discription, category, date, login) VALUES(?, ?, ?, ?, ?)");
+            statement.setString(1, title);
+            statement.setString(2, description);
+            statement.setString(3, category);
+            statement.setObject(4, date);
+            statement.setString(5, AuthorizationController.getLogin());
+            statement.execute();
+            return "success";
+        } catch (SQLException e) {
+            //????????????????????
+            //????????????????????
+            //????????????????????
+            //????????????????????
+            throw new RuntimeException(e);
+        }
     }
 }
 

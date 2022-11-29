@@ -60,6 +60,8 @@ public class AuthorizationController {
             String resultOfCheck = DataManager.CheckAuthorization(LogInField.getText(), PasswordField.getText());
 
             if (resultOfCheck.equals("success")) {
+                login = LogInField.getText();
+
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("app.fxml"));
 
