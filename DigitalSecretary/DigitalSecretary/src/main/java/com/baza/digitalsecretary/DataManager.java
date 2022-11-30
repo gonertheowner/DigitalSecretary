@@ -4,10 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,26 +36,7 @@ public class DataManager {
             return -1;
         }
     }
-    public static String isIdValid(String id, String tableName) throws SQLException {
-        List<String> ids = new ArrayList<>();
-        var selectionSet = selectAll(tableName);
-        while (selectionSet.next()) {
-            ids.add(selectionSet.getString(1));
-        }
 
-        String resultMessage;
-        if (id.equals("")) {
-            resultMessage = "Please, input event id first";
-        } else if (DataManager.parseStringToInteger(id) == -1) {
-            resultMessage = "Please, input a number";
-        } else if (!(ids.contains(id))) {
-            resultMessage = "Please, input an existing id";
-        } else {
-            resultMessage = "Valid id = " + id;
-        }
-
-        return resultMessage;
-    }
     public static ResultSet selectAll(String tableName) {
         ResultSet resultSet;
         try {
@@ -69,12 +48,14 @@ public class DataManager {
         }
         return resultSet;
     }
+
     public static void deleteEvent(String id) throws SQLException {
         var statement = connection.prepareStatement("DELETE FROM events WHERE id = ?");
 
         statement.setInt(1, Integer.parseInt(id));
         statement.execute();
     }
+
     public static void addingEvent(LocalDate date, String category, String title, String description) throws SQLException {
         var statement = connection.prepareStatement("INSERT INTO events (title, discription, category, date, login) VALUES(?, ?, ?, ?, ?)");
         statement.setString(1, title);
@@ -84,6 +65,7 @@ public class DataManager {
         statement.setString(5, AuthorizationController.getLogin());
         statement.execute();
     }
+
     public static boolean updateUser(int index, User user) {
         boolean flag;
         try {
@@ -97,6 +79,7 @@ public class DataManager {
         }
         return flag;
     }
+
     public static boolean searchUser(User user) {
         boolean flag = false;
         try {
@@ -115,6 +98,7 @@ public class DataManager {
         }
         return flag;
     }
+
     public static boolean searchByLogin(User user) {
         boolean flag = false;
         try {
@@ -132,10 +116,11 @@ public class DataManager {
         }
         return flag;
     }
+
     public static String AddUser(String login, String password) {
         String resultOfCheck = CheckRegistration(login, password);
 
-        if (resultOfCheck != "success") return resultOfCheck;
+        if (!resultOfCheck.equals("success")) return resultOfCheck;
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Users (login, password) VALUES (?,?)");
@@ -149,6 +134,7 @@ public class DataManager {
 
         return "success";
     }
+
     public static String CheckRegistration(String login, String password) {
         if (login.length() < 1) return "Логин должен содержать хотя бы один символ";
 
@@ -184,6 +170,7 @@ public class DataManager {
 
         return "success";
     }
+
     public static String CheckAuthorization(String login, String password) {
         if (login.length() == 0) return "Логин не введен";
 
@@ -197,8 +184,9 @@ public class DataManager {
 
         return "success";
     }
+
     public static String AddEvent(LocalDate date, String category, String title, String description) {
-        try{
+        try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO events (title, discription, category, date, login) VALUES(?, ?, ?, ?, ?)");
             statement.setString(1, title);
             statement.setString(2, description);
@@ -215,6 +203,7 @@ public class DataManager {
             throw new RuntimeException(e);
         }
     }
+
     public static ObservableList<String> GetAllEventsList() {
         try{
             ObservableList<String> allEventsList = FXCollections.observableArrayList();
@@ -230,6 +219,7 @@ public class DataManager {
         }
 
     }
+
     public static String GetCheckEventIdInChoose(String id) {
 
         if (id.equals("")) return "Пожалуйста, введите id";
@@ -250,6 +240,7 @@ public class DataManager {
 
         return "success";
     }
+
     public static void DeleteEvent(String id) {
         try {
             var statement = connection.prepareStatement("DELETE FROM events WHERE id = ?");

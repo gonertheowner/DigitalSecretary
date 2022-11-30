@@ -46,7 +46,7 @@ public class ChooseEventController {
 
         GoToChangeButton.setOnAction(event -> {
             String resultOfCheck = DataManager.GetCheckEventIdInChoose(IdField.getText());
-            if (resultOfCheck == "success") {
+            if (resultOfCheck.equals("success")) {
                 ChangeEventController.setSelectedEventId(IdField.getText());
 
                 FXMLLoader loader = new FXMLLoader();
@@ -64,30 +64,6 @@ public class ChooseEventController {
                 ErrorText.setTextFill(Color.color(1, 0, 0));
                 ErrorText.setText(resultOfCheck);
             }
-            /*String message;
-            try {
-                message = DataManager.isIdValid(IdField.getText(), "events");
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
-            if (message.matches("Valid id = \\d")) {
-                ChangeEventController.setSelectedEventId(IdField.getText());
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("change_event.fxml"));
-
-                try {
-                    loader.load();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-                Parent root = loader.getRoot();
-                primaryStage.setScene(new Scene(root));
-            } else {
-                ErrorText.setTextFill(Color.color(1, 0, 0));
-                ErrorText.setText(message);
-            }*/
         });
 
         deleteEventButton.setOnAction(actionEvent -> {
@@ -102,23 +78,6 @@ public class ChooseEventController {
                 ErrorText.setTextFill(Color.color(1, 0, 0));
                 ErrorText.setText(resultOfCheck);
             }
-            /*String message;
-            try {
-                message = DataManager.isIdValid(IdField.getText(), "events");
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
-            if (message.matches("Valid id = \\d")) {
-                try {
-                    DataManager.deleteEvent(IdField.getText());
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                ErrorText.setTextFill(Color.color(1, 0, 0));
-                ErrorText.setText(message);
-            }*/
         });
 
         BackToAppButton.setOnAction(event -> {
