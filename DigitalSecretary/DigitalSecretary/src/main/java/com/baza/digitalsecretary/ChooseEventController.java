@@ -1,6 +1,5 @@
 package com.baza.digitalsecretary;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,8 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static com.baza.digitalsecretary.DigitalSecretaryApp.primaryStage;
@@ -68,7 +65,7 @@ public class ChooseEventController {
 
         deleteEventButton.setOnAction(actionEvent -> {
             String resultOfCheck = DataManager.GetCheckEventIdInChoose(IdField.getText());
-            if (resultOfCheck == "success") {
+            if (resultOfCheck.equals("success")) {
                 DataManager.DeleteEvent(IdField.getText());
                 ObservableList<String> allEventsList2 = DataManager.GetAllEventsList();//может исправить ?
                 EventsListBox.setItems(allEventsList2);

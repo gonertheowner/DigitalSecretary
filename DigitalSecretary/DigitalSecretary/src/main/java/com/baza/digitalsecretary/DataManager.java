@@ -204,8 +204,28 @@ public class DataManager {
         }
     }
 
+    public static String changeEvent(String id, LocalDate date, String title, String category, String description) {
+        String message = "success";
+        if (title.equals("")) {
+            message = "Пожалуйста, введите название события";
+        } else {
+            try {
+                var statement = connection.prepareStatement("UPDATE events SET date = ?, title = ?, category = ?, discription = ? WHERE id = ?");
+                statement.setObject(1, date);
+                statement.setString(2, title);
+                statement.setString(3, category);
+                statement.setString(4, description);
+                statement.setInt(5, Integer.parseInt(id));
+                statement.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return message;
+    }
+
     public static ObservableList<String> GetAllEventsList() {
-        try{
+        try {
             ObservableList<String> allEventsList = FXCollections.observableArrayList();
             var statement = connection.prepareStatement("SELECT * FROM events WHERE login = ?");
             statement.setString(1, AuthorizationController.getLogin());

@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Date;
 
 import static com.baza.digitalsecretary.DigitalSecretaryApp.primaryStage;
 
@@ -60,8 +61,7 @@ public class ChangeEventController {
         }
 
         ChangeEventButton.setOnAction(event -> {
-            //взять все поля и перезаписать событие
-            String message = "success";
+            String message = DataManager.changeEvent(selectedEventId, DateField.getValue(), TitleField.getText(), CategoryField.getText(), DescriptionField.getText());
             if (message.equals("success")) {
                 ErrorText.setTextFill(Color.color(0, 0.70, 0));
                 ErrorText.setText("Изменение прошло успешно");
