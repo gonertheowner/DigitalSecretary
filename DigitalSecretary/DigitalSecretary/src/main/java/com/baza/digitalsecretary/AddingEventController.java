@@ -56,7 +56,7 @@ public class AddingEventController {
 
         AddEventButton.setOnAction(event -> {
             String resultOfCheck = DataManager.AddEvent(DateField.getValue(), CategoryField.getText(), TitleField.getText(), DescriptionField.getText());
-            if (resultOfCheck == "success"){
+            if (resultOfCheck.equals("success")){
                 ErrorText.setTextFill(Color.color(0, 0.70, 0));
                 ErrorText.setText("Добавление прошло успешно");
             } else {

@@ -187,6 +187,10 @@ public class DataManager {
 
     public static String AddEvent(LocalDate date, String category, String title, String description) {
         try {
+            if (title.equals("")) {
+                return "Пожалуйста, введите название события";
+            }
+
             PreparedStatement statement = connection.prepareStatement("INSERT INTO events (title, discription, category, date, login) VALUES(?, ?, ?, ?, ?)");
             statement.setString(1, title);
             statement.setString(2, description);
