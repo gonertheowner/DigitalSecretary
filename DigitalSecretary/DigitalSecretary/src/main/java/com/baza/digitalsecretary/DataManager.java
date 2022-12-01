@@ -231,7 +231,7 @@ public class DataManager {
     public static ObservableList<String> GetAllEventsList() {
         try {
             ObservableList<String> allEventsList = FXCollections.observableArrayList();
-            var statement = connection.prepareStatement("SELECT * FROM events WHERE login = ?");
+            var statement = connection.prepareStatement("SELECT * FROM events WHERE login = ? ORDER BY date");
             statement.setString(1, AuthorizationController.getLogin());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -271,6 +271,41 @@ public class DataManager {
 
             statement.setInt(1, Integer.parseInt(id));
             statement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static ObservableList<String> GetTodayEvents() {
+        try {
+            ObservableList<String> allEventsList = FXCollections.observableArrayList();
+            var statement = connection.prepareStatement("SELECT * FROM events WHERE login = ? AND date = ?");
+            statement.setString(1, AuthorizationController.getLogin());
+            statement.setObject(2, LocalDate.now());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                allEventsList.add(resultSet.getString(1) + " " + resultSet.getString(5) + " " + resultSet.getString(2) + " " + resultSet.getString(4) + " " + resultSet.getString(3));
+            }
+            return allEventsList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static ObservableList<String> GetComingEvents() {
+        try {
+            ObservableList<String> allEventsList = FXCollections.observableArrayList();
+            var statement = connection.prepareStatement("SELECT * FROM events WHERE login = ? AND date > ? ORDER BY date");
+            statement.setString(1, AuthorizationController.getLogin());
+            statement.setObject(2, LocalDate.now());
+            ResultSet resultSet = statement.executeQuery();
+            int count = 0;
+            while (resultSet.next()) {
+                allEventsList.add(resultSet.getString(1) + " " + resultSet.getString(5) + " " + resultSet.getString(2) + " " + resultSet.getString(4) + " " + resultSet.getString(3));
+                count++;
+                if (count >= 8) break;
+            }
+            return allEventsList;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

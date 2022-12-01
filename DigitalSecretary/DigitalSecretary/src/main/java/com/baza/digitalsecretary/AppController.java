@@ -46,15 +46,20 @@ public class AppController {
         SimpleDateFormat formatToday = new SimpleDateFormat("'Сегодня: 'dd.MM.yyyy");
         TodayText.setText(formatToday.format(today));
 
-        ObservableList<String> allEventsList = FXCollections.observableArrayList();
+        /*ObservableList<String> allEventsList = FXCollections.observableArrayList();
         var statement = DataManager.connection.prepareStatement("SELECT * FROM events WHERE login = ?");
         statement.setString(1, AuthorizationController.getLogin());
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
             allEventsList.add(resultSet.getString(5) + " " + resultSet.getString(4) + " " + resultSet.getString(2) + " " + resultSet.getString(3));
-        }
+        }*/
 
-        TodayEventListBox.setItems(allEventsList);
+        ObservableList<String> todayEventsList = DataManager.GetTodayEvents();
+        TodayEventListBox.setItems(todayEventsList);
+
+        ObservableList<String> comingEventsList = DataManager.GetComingEvents();
+        СomingEventsListBox.setItems(comingEventsList);
+
 
         //Переход на авторизацию
         ExitButton.setOnAction(event -> {
