@@ -41,6 +41,11 @@ public class ChooseEventController {
         ObservableList<String> allEventsList = DataManager.GetAllEventsList();
         EventsListBox.setItems(allEventsList);
 
+        /*EventsListBox.setOnAction(event -> {
+
+        });*/
+
+
         GoToChangeButton.setOnAction(event -> {
             String resultOfCheck = DataManager.GetCheckEventIdInChoose(IdField.getText());
             if (resultOfCheck.equals("success")) {

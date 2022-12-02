@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 
 import static com.baza.digitalsecretary.DigitalSecretaryApp.primaryStage;
@@ -44,12 +45,23 @@ public class ChangeEventController {
 
     private static String selectedEventId;
 
+    private static ArrayList<Integer> ids;
+
     public static void setSelectedEventId(String selectedEventId) {
         ChangeEventController.selectedEventId = selectedEventId;
     }
 
+    public static void setIds(ArrayList<Integer> ids) {
+        ChangeEventController.ids = ids;
+    }
+
+    public static ArrayList<Integer> getIds() {
+        return ids;
+    }
+
     @FXML
     void initialize() throws SQLException {
+        selectedEventId = ids.get(Integer.parseInt(selectedEventId) - 1).toString();
         var statement = DataManager.connection.prepareStatement("SELECT * FROM events WHERE id = ?");
         statement.setInt(1, Integer.parseInt(selectedEventId));
         ResultSet resultSet = statement.executeQuery();

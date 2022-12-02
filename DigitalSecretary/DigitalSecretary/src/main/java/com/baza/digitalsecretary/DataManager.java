@@ -49,37 +49,6 @@ public class DataManager {
         return resultSet;
     }
 
-    public static void deleteEvent(String id) throws SQLException {
-        var statement = connection.prepareStatement("DELETE FROM events WHERE id = ?");
-
-        statement.setInt(1, Integer.parseInt(id));
-        statement.execute();
-    }
-
-    public static void addingEvent(LocalDate date, String category, String title, String description) throws SQLException {
-        var statement = connection.prepareStatement("INSERT INTO events (title, discription, category, date, login) VALUES(?, ?, ?, ?, ?)");
-        statement.setString(1, title);
-        statement.setString(2, description);
-        statement.setString(3, category);
-        statement.setObject(4, date);
-        statement.setString(5, AuthorizationController.getLogin());
-        statement.execute();
-    }
-
-    public static boolean updateUser(int index, User user) {
-        boolean flag;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Users SET login=?, password=? WHERE ID=?");
-            preparedStatement.setString(1, user.getLogin());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setInt(3, index);
-            flag = preparedStatement.executeUpdate() != 0;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return flag;
-    }
-
     public static boolean searchUser(User user) {
         boolean flag = false;
         try {
@@ -234,9 +203,15 @@ public class DataManager {
             var statement = connection.prepareStatement("SELECT * FROM events WHERE login = ? ORDER BY date");
             statement.setString(1, AuthorizationController.getLogin());
             ResultSet resultSet = statement.executeQuery();
+            int i = 0;
+            ArrayList<Integer> ids = new ArrayList<Integer>();
             while (resultSet.next()) {
-                allEventsList.add(resultSet.getString(1) + " " + resultSet.getString(5) + " " + resultSet.getString(2) + " " + resultSet.getString(4) + " " + resultSet.getString(3));
+                i++;
+                ids.add(resultSet.getInt(1));
+                //allEventsList.add(resultSet.getString(1) + " " + resultSet.getString(5) + " " + resultSet.getString(2) + " " + resultSet.getString(4) + " " + resultSet.getString(3));
+                allEventsList.add(i + " " + resultSet.getString(5) + " " + resultSet.getString(2) + " " + resultSet.getString(4) + " " + resultSet.getString(3));
             }
+            ChangeEventController.setIds(ids);
             return allEventsList;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -251,14 +226,18 @@ public class DataManager {
         if (parseStringToInteger(id) == -1) return "Пожалуйста, введите целое число";
 
         List<String> ids = new ArrayList<>();
+        int i = 1;
         try {
             var selectionSet = selectAll("events");
             while (selectionSet.next()) {
-                ids.add(selectionSet.getString(1));
+                //ids.add(selectionSet.getString(1));
+                ids.add(Integer.toString(i));
+                i++;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        ids.remove(i-2);
 
         if (!ids.contains(id)) return "Пожалуйста, введите существующий id";
 
@@ -268,8 +247,7 @@ public class DataManager {
     public static void DeleteEvent(String id) {
         try {
             var statement = connection.prepareStatement("DELETE FROM events WHERE id = ?");
-
-            statement.setInt(1, Integer.parseInt(id));
+            statement.setInt(1, ChangeEventController.getIds().get(Integer.parseInt(id) - 1));
             statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -284,7 +262,7 @@ public class DataManager {
             statement.setObject(2, LocalDate.now());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                allEventsList.add(resultSet.getString(1) + " " + resultSet.getString(5) + " " + resultSet.getString(2) + " " + resultSet.getString(4) + " " + resultSet.getString(3));
+                allEventsList.add(resultSet.getString(5) + " " + resultSet.getString(2) + " " + resultSet.getString(4) + " " + resultSet.getString(3));
             }
             return allEventsList;
         } catch (SQLException e) {
@@ -301,7 +279,7 @@ public class DataManager {
             ResultSet resultSet = statement.executeQuery();
             int count = 0;
             while (resultSet.next()) {
-                allEventsList.add(resultSet.getString(1) + " " + resultSet.getString(5) + " " + resultSet.getString(2) + " " + resultSet.getString(4) + " " + resultSet.getString(3));
+                allEventsList.add(resultSet.getString(5) + " " + resultSet.getString(2) + " " + resultSet.getString(4) + " " + resultSet.getString(3));
                 count++;
                 if (count >= 8) break;
             }
