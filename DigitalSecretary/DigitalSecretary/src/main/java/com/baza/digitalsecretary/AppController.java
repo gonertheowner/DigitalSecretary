@@ -8,10 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.collections.FXCollections;
 
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,14 +44,6 @@ public class AppController {
         SimpleDateFormat formatToday = new SimpleDateFormat("'Сегодня: 'dd.MM.yyyy");
         TodayText.setText(formatToday.format(today));
 
-        /*ObservableList<String> allEventsList = FXCollections.observableArrayList();
-        var statement = DataManager.connection.prepareStatement("SELECT * FROM events WHERE login = ?");
-        statement.setString(1, AuthorizationController.getLogin());
-        ResultSet resultSet = statement.executeQuery();
-        while (resultSet.next()) {
-            allEventsList.add(resultSet.getString(5) + " " + resultSet.getString(4) + " " + resultSet.getString(2) + " " + resultSet.getString(3));
-        }*/
-
         ObservableList<String> todayEventsList = DataManager.GetTodayEvents();
         TodayEventListBox.setItems(todayEventsList);
 
@@ -61,7 +51,6 @@ public class AppController {
         СomingEventsListBox.setItems(comingEventsList);
 
 
-        //Переход на авторизацию
         ExitButton.setOnAction(event -> {
 
             FXMLLoader loader = new FXMLLoader();

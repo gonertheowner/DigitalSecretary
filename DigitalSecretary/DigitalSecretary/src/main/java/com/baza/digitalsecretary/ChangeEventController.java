@@ -4,11 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
@@ -16,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 import static com.baza.digitalsecretary.DigitalSecretaryApp.primaryStage;
 
@@ -77,6 +72,17 @@ public class ChangeEventController {
             if (message.equals("success")) {
                 ErrorText.setTextFill(Color.color(0, 0.70, 0));
                 ErrorText.setText("Изменение прошло успешно");
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("choose_event.fxml"));
+
+                try {
+                    loader.load();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                Parent root = loader.getRoot();
+                primaryStage.setScene(new Scene(root));
             } else {
                 ErrorText.setTextFill(Color.color(1, 0, 0));
                 ErrorText.setText(message);
