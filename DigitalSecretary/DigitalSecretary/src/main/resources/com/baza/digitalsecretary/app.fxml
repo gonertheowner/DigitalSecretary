@@ -17,7 +17,7 @@
                </font>
             </Label>
          </children></AnchorPane>
-      <Pane layoutX="666.0" layoutY="121.0" prefHeight="388.0" prefWidth="246.0" style="-fx-background-color: #e1e1e1; -fx-background-radius: 15;">
+      <Pane layoutX="666.0" layoutY="121.0" prefHeight="388.0" prefWidth="246.0" style="-fx-background-color: #e1e1e1; -fx-background-radius: 15; -fx-border-color: #616f5f; -fx-border-radius: 15; -fx-border-width: 2;">
          <children>
             <Label fx:id="TodayText" layoutX="24.0" layoutY="14.0" prefHeight="25.0" prefWidth="200.0" text="Сегодня: 16:11:2022">
                <font>
@@ -25,32 +25,36 @@
                </font>
             </Label>
             <Button fx:id="GoToAddEventButton" focusTraversable="false" layoutX="24.0" layoutY="253.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" style="-fx-background-radius: 15;" text="Добавить событие" />
-            <Button fx:id="GoToChooseEventButton" focusTraversable="false" layoutX="24.0" layoutY="297.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" style="-fx-background-radius: 15;" text="Изменить событие" />
-            <Label layoutX="24.0" layoutY="46.0" prefHeight="25.0" prefWidth="200.0" text="Пользователь: admin">
+            <Button fx:id="GoToChangeEventButton" focusTraversable="false" layoutX="24.0" layoutY="297.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" style="-fx-background-radius: 15;" text="Изменить событие" />
+            <Label fx:id="UserText" layoutX="24.0" layoutY="46.0" prefHeight="25.0" prefWidth="200.0" text="Пользователь: admin">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
             <Button fx:id="ExitButton" focusTraversable="false" layoutX="24.0" layoutY="340.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" style="-fx-background-radius: 15;" text="Выйти" />
-            <Label layoutX="24.0" layoutY="79.0" prefHeight="21.0" prefWidth="200.0" text="Событий на сегодня: 5">
+            <Label fx:id="CountTodayEventsText" layoutX="24.0" layoutY="79.0" prefHeight="21.0" prefWidth="200.0" text="Событий на сегодня: 5">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
+            <Button fx:id="AllEventsButton" focusTraversable="false" layoutX="24.0" layoutY="213.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" style="-fx-background-radius: 15;" text="Все события" />
+            <Pane layoutX="24.0" layoutY="109.0" prefHeight="2.0" prefWidth="200.0" style="-fx-background-color: #616f5f;" />
+            <Button fx:id="DeleteEventButton" focusTraversable="false" layoutX="23.0" layoutY="175.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" style="-fx-background-radius: 15;" text="Удалить событие" />
+            <Label fx:id="ErrorText" alignment="CENTER" layoutX="24.0" layoutY="144.0" prefHeight="17.0" prefWidth="200.0" />
          </children>
       </Pane>
-      <Pane layoutX="47.0" layoutY="320.0" prefHeight="190.0" prefWidth="600.0" style="-fx-background-color: #e1e1e1; -fx-background-radius: 15;">
+      <Pane layoutX="47.0" layoutY="320.0" prefHeight="190.0" prefWidth="600.0" style="-fx-background-color: #e1e1e1; -fx-background-radius: 15; -fx-border-color: #616f5f; -fx-border-radius: 15; -fx-border-width: 2;">
          <children>
-            <ListView fx:id="СomingEventsListBox" focusTraversable="false" layoutX="15.0" layoutY="25.0" prefHeight="151.0" prefWidth="570.0" style="-fx-background-color: #e1e1e1;" />
+            <ListView fx:id="ComingEventsListBox" focusTraversable="false" layoutX="15.0" layoutY="25.0" prefHeight="151.0" prefWidth="570.0" style="-fx-background-color: #e1e1e1; -fx-border-color: #d3d3d3; -fx-border-width: 5; -fx-border-radius: 5;" />
             <Label layoutX="15.0" layoutY="6.0" prefHeight="17.0" prefWidth="125.0" text="Ближайшие события:" />
          </children>
       </Pane>
-      <Pane layoutX="47.0" layoutY="121.0" prefHeight="190.0" prefWidth="600.0" style="-fx-background-color: #e1e1e1; -fx-background-radius: 15;">
+      <Pane layoutX="47.0" layoutY="121.0" prefHeight="190.0" prefWidth="600.0" style="-fx-background-color: #e1e1e1; -fx-background-radius: 15; -fx-border-color: #616f5f; -fx-border-radius: 15; -fx-border-width: 2;">
          <children>
-            <ListView fx:id="TodayEventListBox" focusTraversable="false" layoutX="15.0" layoutY="25.0" prefHeight="151.0" prefWidth="570.0" style="-fx-background-color: #e1e1e1;" />
+            <ListView fx:id="TodayEventListBox" focusTraversable="false" layoutX="15.0" layoutY="25.0" prefHeight="151.0" prefWidth="570.0" style="-fx-background-color: #e1e1e1; -fx-border-color: #d3d3d3; -fx-border-width: 5; -fx-border-radius: 5;" />
             <Label layoutX="15.0" layoutY="6.0" prefHeight="17.0" prefWidth="125.0" text="События на сегодня:" />
          </children>
       </Pane>
+      <Pane prefHeight="200.0" prefWidth="200.0" />
    </children>
 </AnchorPane>
-

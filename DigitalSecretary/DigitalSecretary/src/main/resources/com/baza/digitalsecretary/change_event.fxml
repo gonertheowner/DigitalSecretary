@@ -19,7 +19,7 @@
                     </font>
                 </Label>
             </children></AnchorPane>
-        <Pane layoutX="322.0" layoutY="111.0" prefHeight="415.0" prefWidth="317.0" style="-fx-background-color: #e1e1e1; -fx-background-radius: 15;">
+        <Pane layoutX="322.0" layoutY="111.0" prefHeight="415.0" prefWidth="317.0" style="-fx-background-color: #e1e1e1; -fx-background-radius: 15; -fx-border-color: #616f5f; -fx-border-radius: 15; -fx-border-width: 2;">
             <children>
                 <Button fx:id="ChangeEventButton" focusTraversable="false" layoutX="84.0" layoutY="338.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" style="-fx-background-radius: 15;" text="Изменить" />
                 <TextField fx:id="TitleField" focusTraversable="false" layoutX="84.0" layoutY="121.0" style="-fx-background-radius: 15;" />

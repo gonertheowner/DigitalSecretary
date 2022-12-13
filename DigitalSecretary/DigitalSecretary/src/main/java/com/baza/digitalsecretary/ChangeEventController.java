@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import static com.baza.digitalsecretary.DigitalSecretaryApp.primaryStage;
 
@@ -38,27 +37,10 @@ public class ChangeEventController {
     @FXML
     private TextField TitleField;
 
-    private static String selectedEventId;
-
-    private static ArrayList<Integer> ids;
-
-    public static void setSelectedEventId(String selectedEventId) {
-        ChangeEventController.selectedEventId = selectedEventId;
-    }
-
-    public static void setIds(ArrayList<Integer> ids) {
-        ChangeEventController.ids = ids;
-    }
-
-    public static ArrayList<Integer> getIds() {
-        return ids;
-    }
-
     @FXML
     void initialize() throws SQLException {
-        selectedEventId = ids.get(Integer.parseInt(selectedEventId) - 1).toString();
         var statement = DataManager.connection.prepareStatement("SELECT * FROM events WHERE id = ?");
-        statement.setInt(1, Integer.parseInt(selectedEventId));
+        statement.setInt(1, DataManager.GetSelectedEventId());
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
             DateField.setValue(LocalDate.parse(resultSet.getString(5)));
@@ -68,12 +50,12 @@ public class ChangeEventController {
         }
 
         ChangeEventButton.setOnAction(event -> {
-            String message = DataManager.changeEvent(selectedEventId, DateField.getValue(), TitleField.getText(), CategoryField.getText(), DescriptionField.getText());
+            String message = DataManager.changeEvent(DataManager.GetSelectedEventId(), DateField.getValue(), TitleField.getText(), CategoryField.getText(), DescriptionField.getText());
             if (message.equals("success")) {
                 ErrorText.setTextFill(Color.color(0, 0.70, 0));
                 ErrorText.setText("Изменение прошло успешно");
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("choose_event.fxml"));
+                loader.setLocation(getClass().getResource("all_event.fxml"));
 
                 try {
                     loader.load();
@@ -91,7 +73,7 @@ public class ChangeEventController {
 
         BackToChooseEventButton.setOnAction(event -> {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("choose_event.fxml"));
+            loader.setLocation(getClass().getResource("all_event.fxml"));
 
             try {
                 loader.load();

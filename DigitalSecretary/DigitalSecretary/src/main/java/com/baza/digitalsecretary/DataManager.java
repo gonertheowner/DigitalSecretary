@@ -6,13 +6,19 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
 public class DataManager {
     public static final Connection connection;
+    private static ArrayList<Integer> allEventsIds;
+
+    private static ArrayList<Integer> todayEventsIds;
+
+    private static ArrayList<Integer> comingEventsIds;
+
+    private static int SelectedEventId;
 
     static
     {
@@ -27,26 +33,30 @@ public class DataManager {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        allEventsIds = new ArrayList<>();
+        todayEventsIds = new ArrayList<>();
+        comingEventsIds = new ArrayList<>();
     }
 
-    public static int parseStringToInteger(String str) {
-        if (str.matches("\\d+")) {
-            return Integer.parseInt(str);
-        } else {
-            return -1;
-        }
+    public static int GetSelectedEventId() {
+        return SelectedEventId;
     }
 
-    public static ResultSet selectAll(String tableName) {
-        ResultSet resultSet;
-        try {
-            String query = "SELECT * FROM " + tableName;
-            resultSet =  connection.prepareStatement(query).executeQuery();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException("Несуществующее имя таблицы: " + tableName);
-        }
-        return resultSet;
+    public static void SetSelectedEventId(int id) {
+        SelectedEventId = id;
+    }
+
+    public static int GetIdByNumberFromAllEvents(int number) {
+        return allEventsIds.get(number);
+    }
+
+    public static int GetIdByNumberFromTodayEvents(int number) {
+        return todayEventsIds.get(number);
+    }
+
+    public static int GetIdByNumberFromComingEvents(int number) {
+        return comingEventsIds.get(number);
     }
 
     public static boolean searchUser(User user) {
@@ -177,7 +187,7 @@ public class DataManager {
         }
     }
 
-    public static String changeEvent(String id, LocalDate date, String title, String category, String description) {
+    public static String changeEvent(int id, LocalDate date, String title, String category, String description) {
         String message = "success";
         if (title.equals("")) {
             message = "Пожалуйста, введите название события";
@@ -188,7 +198,7 @@ public class DataManager {
                 statement.setString(2, title);
                 statement.setString(3, category);
                 statement.setString(4, description);
-                statement.setInt(5, Integer.parseInt(id));
+                statement.setInt(5, id);
                 statement.execute();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -203,15 +213,11 @@ public class DataManager {
             var statement = connection.prepareStatement("SELECT * FROM events WHERE login = ? ORDER BY date");
             statement.setString(1, AuthorizationController.getLogin());
             ResultSet resultSet = statement.executeQuery();
-            int i = 0;
-            ArrayList<Integer> ids = new ArrayList<Integer>();
+            allEventsIds.clear();
             while (resultSet.next()) {
-                i++;
-                ids.add(resultSet.getInt(1));
-                //allEventsList.add(resultSet.getString(1) + " " + resultSet.getString(5) + " " + resultSet.getString(2) + " " + resultSet.getString(4) + " " + resultSet.getString(3));
-                allEventsList.add(i + " " + resultSet.getString(5) + " " + resultSet.getString(2) + " " + resultSet.getString(4) + " " + resultSet.getString(3));
+                allEventsIds.add(resultSet.getInt(1));
+                allEventsList.add(resultSet.getString(5) + " " + resultSet.getString(2) + " " + resultSet.getString(4) + " " + resultSet.getString(3));
             }
-            ChangeEventController.setIds(ids);
             return allEventsList;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -219,40 +225,17 @@ public class DataManager {
 
     }
 
-    public static String GetCheckEventIdInChoose(String id) {
-
-        if (id.equals("")) return "Пожалуйста, введите id";
-
-        if (parseStringToInteger(id) == -1) return "Пожалуйста, введите целое число";
-
-        List<String> ids = new ArrayList<>();
-        int i = 1;
-        try {
-            var selectionSet = selectAll("events");
-            while (selectionSet.next()) {
-                //ids.add(selectionSet.getString(1));
-                ids.add(Integer.toString(i));
-                i++;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        ids.remove(i-2);
-
-        if (!ids.contains(id)) return "Пожалуйста, введите существующий id";
-
-        return "success";
-    }
-
-    public static void DeleteEvent(String id) {
+    public static void DeleteEvent(int id) {
         try {
             var statement = connection.prepareStatement("DELETE FROM events WHERE id = ?");
-            statement.setInt(1, ChangeEventController.getIds().get(Integer.parseInt(id) - 1));
+            statement.setInt(1, id);
             statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+
 
     public static ObservableList<String> GetTodayEvents() {
         try {
@@ -261,7 +244,9 @@ public class DataManager {
             statement.setString(1, AuthorizationController.getLogin());
             statement.setObject(2, LocalDate.now());
             ResultSet resultSet = statement.executeQuery();
+            todayEventsIds.clear();
             while (resultSet.next()) {
+                todayEventsIds.add(resultSet.getInt(1));
                 allEventsList.add(resultSet.getString(5) + " " + resultSet.getString(2) + " " + resultSet.getString(4) + " " + resultSet.getString(3));
             }
             return allEventsList;
@@ -278,7 +263,9 @@ public class DataManager {
             statement.setObject(2, LocalDate.now());
             ResultSet resultSet = statement.executeQuery();
             int count = 0;
+            comingEventsIds.clear();
             while (resultSet.next()) {
+                comingEventsIds.add(resultSet.getInt(1));
                 allEventsList.add(resultSet.getString(5) + " " + resultSet.getString(2) + " " + resultSet.getString(4) + " " + resultSet.getString(3));
                 count++;
                 if (count >= 8) break;

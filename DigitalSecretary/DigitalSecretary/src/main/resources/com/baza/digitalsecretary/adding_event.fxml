@@ -19,21 +19,20 @@
                     </font>
                 </Label>
             </children></AnchorPane>
-      <Pane layoutX="322.0" layoutY="111.0" prefHeight="415.0" prefWidth="317.0" style="-fx-background-color: #e1e1e1; -fx-background-radius: 15;">
-         <children>
-            <Button fx:id="AddEventButton" focusTraversable="false" layoutX="84.0" layoutY="338.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" style="-fx-background-radius: 15;" text="Добавить" />
-            <TextField fx:id="TitleField" focusTraversable="false" layoutX="84.0" layoutY="121.0" style="-fx-background-radius: 15;" />
-            <TextField fx:id="CategoryField" focusTraversable="false" layoutX="84.0" layoutY="176.0" style="-fx-background-radius: 15;" />
-            <Label alignment="CENTER" layoutX="84.0" layoutY="38.0" prefHeight="17.0" prefWidth="149.0" text="Дата" />
-            <Label alignment="CENTER" layoutX="84.0" layoutY="98.0" prefHeight="17.0" prefWidth="149.0" text="Название" />
-            <Label alignment="CENTER" layoutX="84.0" layoutY="153.0" prefHeight="17.0" prefWidth="149.0" text="Категория" />
-            <Label alignment="CENTER" layoutX="84.0" layoutY="208.0" prefHeight="17.0" prefWidth="149.0" text="Описание" />
-            <TextArea fx:id="DescriptionField" focusTraversable="false" layoutX="17.0" layoutY="225.0" prefHeight="103.0" prefWidth="283.0" />
-            <Label fx:id="ErrorText" alignment="CENTER" layoutX="17.0" layoutY="14.0" prefHeight="17.0" prefWidth="283.0" />
-            <DatePicker fx:id="DateField" focusTraversable="false" layoutX="84.0" layoutY="62.0" prefHeight="25.0" prefWidth="149.0" />
-              <Button fx:id="BackToAppButton" focusTraversable="false" layoutX="84.0" layoutY="376.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" style="-fx-background-radius: 15;" text="Назад" />
-         </children>
-      </Pane>
+        <Pane layoutX="322.0" layoutY="111.0" prefHeight="415.0" prefWidth="317.0" style="-fx-background-color: #e1e1e1; -fx-background-radius: 15; -fx-border-color: #616f5f; -fx-border-radius: 15; -fx-border-width: 2;">
+            <children>
+                <Button fx:id="AddEventButton" focusTraversable="false" layoutX="84.0" layoutY="338.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" style="-fx-background-radius: 15;" text="Добавить" />
+                <TextField fx:id="TitleField" focusTraversable="false" layoutX="84.0" layoutY="121.0" style="-fx-background-radius: 15;" />
+                <TextField fx:id="CategoryField" focusTraversable="false" layoutX="84.0" layoutY="176.0" style="-fx-background-radius: 15;" />
+                <Label alignment="CENTER" layoutX="84.0" layoutY="38.0" prefHeight="17.0" prefWidth="149.0" text="Дата" />
+                <Label alignment="CENTER" layoutX="84.0" layoutY="98.0" prefHeight="17.0" prefWidth="149.0" text="Название" />
+                <Label alignment="CENTER" layoutX="84.0" layoutY="153.0" prefHeight="17.0" prefWidth="149.0" text="Категория" />
+                <Label alignment="CENTER" layoutX="84.0" layoutY="208.0" prefHeight="17.0" prefWidth="149.0" text="Описание" />
+                <TextArea fx:id="DescriptionField" focusTraversable="false" layoutX="17.0" layoutY="225.0" prefHeight="103.0" prefWidth="283.0" />
+                <Label fx:id="ErrorText" alignment="CENTER" layoutX="17.0" layoutY="14.0" prefHeight="17.0" prefWidth="283.0" />
+                <DatePicker fx:id="DateField" focusTraversable="false" layoutX="84.0" layoutY="62.0" prefHeight="25.0" prefWidth="149.0" />
+                <Button fx:id="BackToAppButton" focusTraversable="false" layoutX="84.0" layoutY="376.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" style="-fx-background-radius: 15;" text="Назад" />
+            </children>
+        </Pane>
     </children>
 </AnchorPane>
-

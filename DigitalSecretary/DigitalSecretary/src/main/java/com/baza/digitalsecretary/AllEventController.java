@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
@@ -16,7 +15,7 @@ import java.sql.SQLException;
 
 import static com.baza.digitalsecretary.DigitalSecretaryApp.primaryStage;
 
-public class ChooseEventController {
+public class AllEventController {
 
     @FXML
     private Button BackToAppButton;
@@ -28,57 +27,51 @@ public class ChooseEventController {
     private Button GoToChangeButton;
 
     @FXML
-    private TextField IdField;
-
-    @FXML
     private ListView<String> EventsListBox;
 
     @FXML
     private Button deleteEventButton;
+
+
 
     @FXML
     void initialize() throws SQLException {
         ObservableList<String> allEventsList = DataManager.GetAllEventsList();
         EventsListBox.setItems(allEventsList);
 
-        /*EventsListBox.setOnAction(event -> {
-
-        });*/
-
 
         GoToChangeButton.setOnAction(event -> {
-            String resultOfCheck = DataManager.GetCheckEventIdInChoose(IdField.getText());
-            if (resultOfCheck.equals("success")) {
-                ChangeEventController.setSelectedEventId(IdField.getText());
+            int number = EventsListBox.getSelectionModel().getSelectedIndex();
+            if (number == -1) {
+                ErrorText.setTextFill(Color.color(1, 0, 0));
+                ErrorText.setText("Ничего не выбрано");
+            }else{
+                int id = DataManager.GetIdByNumberFromAllEvents(number);
+                DataManager.SetSelectedEventId(id);
 
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("change_event.fxml"));
-
                 try {
                     loader.load();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-
                 Parent root = loader.getRoot();
                 primaryStage.setScene(new Scene(root));
-            } else {
-                ErrorText.setTextFill(Color.color(1, 0, 0));
-                ErrorText.setText(resultOfCheck);
             }
         });
 
-        deleteEventButton.setOnAction(actionEvent -> {
-            String resultOfCheck = DataManager.GetCheckEventIdInChoose(IdField.getText());
-            if (resultOfCheck.equals("success")) {
-                DataManager.DeleteEvent(IdField.getText());
-                ObservableList<String> allEventsList2 = DataManager.GetAllEventsList();//может исправить ?
-                EventsListBox.setItems(allEventsList2);
-                ErrorText.setTextFill(Color.color(0, 0.7, 0));
-                ErrorText.setText("Удаление прошло успешно");
-            } else {
+        deleteEventButton.setOnAction(event -> {
+            int number = EventsListBox.getSelectionModel().getSelectedIndex();
+            if (number == -1) {
                 ErrorText.setTextFill(Color.color(1, 0, 0));
-                ErrorText.setText(resultOfCheck);
+                ErrorText.setText("Ничего не выбрано");
+            }else{
+                int id = DataManager.GetIdByNumberFromAllEvents(number);
+                DataManager.DeleteEvent(id);
+                EventsListBox.setItems(DataManager.GetAllEventsList());
+                ErrorText.setTextFill(Color.color(0.38, 0.43, 0.37));
+                ErrorText.setText("Удаление прошло успешно");
             }
         });
 
