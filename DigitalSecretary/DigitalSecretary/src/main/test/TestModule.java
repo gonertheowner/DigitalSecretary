@@ -169,11 +169,10 @@ public class TestModule {
         String description = "description";
         DataManager.AddEvent(date, category, title, description);
         ObservableList<String> todayEvents = DataManager.GetTodayEvents();
-        todayEvents.forEach((event) -> {
-            if (event.split(" ")[0] == date.toString() && event.split(" ")[1] == title) {
-                Assertions.assertEquals(true, true);
-            }
-        });
+
+        var actual = todayEvents.stream().anyMatch((event) -> event.split(" ")[0].equals(date.toString())
+                && event.split(" ")[1].equals(title) && event.split(" ")[2].equals(category) && event.split(" ")[3].equals(description));
+        Assertions.assertTrue(actual);
     }
     @Test
     public void GetTodayEventsTest() {
@@ -181,6 +180,7 @@ public class TestModule {
         String expected = LocalDate.now().toString();
         AuthorizationController.setLogin(login);
         ObservableList<String> todayEvents = DataManager.GetTodayEvents();
+
         todayEvents.forEach((event) -> {
             System.out.println(event.split(" ")[0]);
             String actual = event.split(" ")[0];
