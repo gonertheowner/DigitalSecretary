@@ -40,7 +40,7 @@ public class AuthorizationController {
     }
 
     @FXML
-    void initialize(){
+    void initialize() {
         GoToRegistrationButton.setOnAction(event ->{
 
             FXMLLoader loader = new FXMLLoader();
