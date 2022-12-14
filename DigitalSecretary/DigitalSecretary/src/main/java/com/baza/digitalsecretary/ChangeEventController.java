@@ -42,11 +42,22 @@ public class ChangeEventController {
         var statement = DataManager.connection.prepareStatement("SELECT * FROM events WHERE id = ?");
         statement.setInt(1, DataManager.GetSelectedEventId());
         ResultSet resultSet = statement.executeQuery();
+        LocalDate date = LocalDate.now();
+        String title = "", category = "", description = "";
         while (resultSet.next()) {
-            DateField.setValue(LocalDate.parse(resultSet.getString(5)));
+            date = LocalDate.parse(resultSet.getString(5));
+            DateField.setValue(date);
+            title = resultSet.getString(2);
+            TitleField.setText(title);
+            category = resultSet.getString(4);
+            CategoryField.setText(category);
+            description = resultSet.getString(3);
+            DescriptionField.setText(description);
+            DataManager.SetEventInfo(date, title, category, description);
+            /*DateField.setValue(LocalDate.parse(resultSet.getString(5)));
             TitleField.setText(resultSet.getString(2));
             CategoryField.setText(resultSet.getString(4));
-            DescriptionField.setText(resultSet.getString(3));
+            DescriptionField.setText(resultSet.getString(3));*/
         }
 
         ChangeEventButton.setOnAction(event -> {
@@ -55,7 +66,8 @@ public class ChangeEventController {
                 ErrorText.setTextFill(Color.color(0, 0.70, 0));
                 ErrorText.setText("Изменение прошло успешно");
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("all_event.fxml"));
+                loader.setLocation(getClass().getResource("app.fxml"));
+
 
                 try {
                     loader.load();
@@ -73,7 +85,7 @@ public class ChangeEventController {
 
         BackToChooseEventButton.setOnAction(event -> {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("all_event.fxml"));
+            loader.setLocation(getClass().getResource("app.fxml"));
 
             try {
                 loader.load();

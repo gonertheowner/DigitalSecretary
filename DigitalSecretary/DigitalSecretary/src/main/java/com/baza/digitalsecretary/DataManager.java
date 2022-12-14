@@ -20,6 +20,9 @@ public class DataManager {
 
     private static int SelectedEventId;
 
+    private static LocalDate date;
+    private static String title, category, description;
+
     static
     {
         try {
@@ -39,6 +42,12 @@ public class DataManager {
         comingEventsIds = new ArrayList<>();
     }
 
+    public static void SetEventInfo(LocalDate _date, String _title, String _category, String _description) {
+        date = _date;
+        title = _title;
+        category = _category;
+        description = _description;
+    }
     public static int GetSelectedEventId() {
         return SelectedEventId;
     }
@@ -187,17 +196,19 @@ public class DataManager {
         }
     }
 
-    public static String changeEvent(int id, LocalDate date, String title, String category, String description) {
+    public static String changeEvent(int id, LocalDate _date, String _title, String _category, String _description) {
         String message = "success";
-        if (title.equals("")) {
+        if (date.equals(_date) && title.equals(_title) && category.equals(_category) && description.equals(_description)) {
+            message = "Ничего не изменено";
+        } else if (_title.equals("")) {
             message = "Пожалуйста, введите название события";
         } else {
             try {
                 var statement = connection.prepareStatement("UPDATE events SET date = ?, title = ?, category = ?, discription = ? WHERE id = ?");
-                statement.setObject(1, date);
-                statement.setString(2, title);
-                statement.setString(3, category);
-                statement.setString(4, description);
+                statement.setObject(1, _date);
+                statement.setString(2, _title);
+                statement.setString(3, _category);
+                statement.setString(4, _description);
                 statement.setInt(5, id);
                 statement.execute();
             } catch (SQLException e) {
