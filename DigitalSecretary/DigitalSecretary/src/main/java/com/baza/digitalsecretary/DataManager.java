@@ -235,8 +235,6 @@ public class DataManager {
         }
     }
 
-
-
     public static ObservableList<String> GetTodayEvents() {
         try {
             ObservableList<String> allEventsList = FXCollections.observableArrayList();

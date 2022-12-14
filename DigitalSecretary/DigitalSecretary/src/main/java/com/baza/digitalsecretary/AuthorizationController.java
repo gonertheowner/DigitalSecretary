@@ -39,6 +39,10 @@ public class AuthorizationController {
         return login;
     }
 
+    public static void setLogin(String _login) {
+        login = _login;
+    }
+
     @FXML
     void initialize() {
         GoToRegistrationButton.setOnAction(event ->{
