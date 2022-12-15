@@ -1,8 +1,5 @@
 package com.baza.digitalsecretary;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 public class User {
     private int id;
     private String login;
@@ -37,10 +34,3 @@ public class User {
         this.password = password;
     }
 }
-
-
-
-
-
-
-

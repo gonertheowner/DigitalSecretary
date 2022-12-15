@@ -78,6 +78,7 @@ public class AppTests extends ApplicationTest {
 
         clickOn("#SkipButton");
         clickOn("#TodayEventListBox");
+        //doubleClickOn(600, 340);
         clickOn("#GoToChangeEventButton");
         clickOn("#TitleField").eraseText(-1);
         clickOn("#TitleField").write(title);
@@ -120,15 +121,119 @@ public class AppTests extends ApplicationTest {
 
     @Test
     public void GoToAllEventTest() {
-
         clickOn("#SkipButton");
         clickOn("#TodayEventListBox");
         clickOn("#AllEventsButton");
-
-        //String expected = "a javafx.scene.control.ListView (<ListView[id=EventsListBox, styleClass=list-view]>)";
-
-        //FxAssert.verifyThat("#EventsListBox", LabeledMatchers.hasText(expected));
     }
+
+    @Test
+    public void DeleteEventTest() {
+
+        clickOn("#SkipButton");
+        clickOn("#TodayEventListBox");
+        clickOn("#DeleteEventButton");
+
+        String expected = "Удаление прошло успешно";
+
+        FxAssert.verifyThat("#ErrorText", LabeledMatchers.hasText(expected));
+    }
+
+    @Test
+    public void NotSuccessDeleteEventTest() {
+
+        clickOn("#SkipButton");
+        clickOn("#DeleteEventButton");
+
+        String expected = "Ничего не выбрано";
+
+        FxAssert.verifyThat("#ErrorText", LabeledMatchers.hasText(expected));
+    }
+
+    @Test
+    public void ChangeEventBackButtonTest() {
+
+        clickOn("#SkipButton");
+        clickOn("#TodayEventListBox");
+        clickOn("#GoToChangeEventButton");
+        clickOn("#BackToChooseEventButton");
+
+        String expected = "";
+
+        FxAssert.verifyThat("#ErrorText", LabeledMatchers.hasText(expected));
+    }
+
+    @Test
+    public void AllEventBackButtonTest() {
+
+        clickOn("#SkipButton");
+        clickOn("#AllEventsButton");
+        clickOn("#BackToAppButton");
+
+        String expected = "";
+
+        FxAssert.verifyThat("#ErrorText", LabeledMatchers.hasText(expected));
+    }
+
+    @Test
+    public void AddEventBackButtonTest() {
+
+        clickOn("#SkipButton");
+        clickOn("#GoToAddEventButton");
+        clickOn("#BackToAppButton");
+
+        String expected = "";
+
+        FxAssert.verifyThat("#ErrorText", LabeledMatchers.hasText(expected));
+    }
+
+    @Test
+    public void AllEventChangeTest() {
+        String title = "Changed_title";
+        String category = "changed_category";
+        String description = "changed_description";
+
+        clickOn("#SkipButton");
+        clickOn("#AllEventsButton");
+        clickOn("#EventsListBox");
+        clickOn("#GoToChangeButton");
+
+        clickOn("#TitleField").eraseText(-1);
+        clickOn("#TitleField").write(title);
+        clickOn("#CategoryField").eraseText(-1);
+        clickOn("#CategoryField").write(category);
+        clickOn("#DescriptionField").eraseText(-1);
+        clickOn("#DescriptionField").write(description);
+        clickOn("#ChangeEventButton");
+
+        String expected = "";
+
+        FxAssert.verifyThat("#ErrorText", LabeledMatchers.hasText(expected));
+    }
+
+    @Test
+    public void AllEventDeleteTest() {
+
+        clickOn("#SkipButton");
+        clickOn("#AllEventsButton");
+        clickOn("#EventsListBox");
+        clickOn("#deleteEventButton");
+
+        String expected = "Удаление прошло успешно";
+
+        FxAssert.verifyThat("#ErrorText", LabeledMatchers.hasText(expected));
+    }
+
+    @Test
+    public void ExitTest() {
+
+        clickOn("#SkipButton");
+        clickOn("#ExitButton");
+
+        String expected = "";
+
+        FxAssert.verifyThat("#ErrorText", LabeledMatchers.hasText(expected));
+    }
+
 
 }
 

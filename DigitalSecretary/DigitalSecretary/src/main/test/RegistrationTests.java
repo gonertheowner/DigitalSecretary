@@ -157,5 +157,15 @@ public class RegistrationTests extends ApplicationTest {
 
         FxAssert.verifyThat("#ErrorText", LabeledMatchers.hasText(expected));
     }
+
+    @Test
+    public void BackButtonRegistrationTest() {
+        clickOn("#GoToRegistrationButton");
+
+        clickOn("#BackToAuthorizationButton");
+        String expected = "";
+
+        FxAssert.verifyThat("#ErrorText", LabeledMatchers.hasText(expected));
+    }
 }
 
