@@ -82,22 +82,6 @@ public class AuthorizationController {
                 ErrorText.setText(resultOfCheck);
             }
         });
-
-        SkipButton.setOnAction(event -> {
-            login = "admin";
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("app.fxml"));
-
-            try {
-                loader.load();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-            Parent root = loader.getRoot();
-            primaryStage.setScene(new Scene(root));
-        });
-
     }
 
 }

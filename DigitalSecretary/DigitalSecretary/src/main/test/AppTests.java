@@ -26,6 +26,39 @@ public class AppTests extends ApplicationTest {
     }
 
     @Test
+    public void DoTest() throws InterruptedException {
+
+        clickOn("#LogInField").write("baza");
+        clickOn("#PasswordField").write("baza2022");
+        clickOn("#SignInButton");
+        Thread.sleep(2000);
+        clickOn("#PasswordField").eraseText(-1);
+        clickOn("#PasswordField").write("baza2002");
+        clickOn("#SignInButton");
+        Thread.sleep(2000);
+        clickOn("#AllEventsButton");
+        Thread.sleep(2000);
+        clickOn("#BackToAppButton");
+        clickOn("#ComingEventsListBox");
+        Thread.sleep(2000);
+        clickOn("#GoToChangeEventButton");
+        clickOn("#DescriptionField").eraseText(5);
+        clickOn("#DescriptionField").write("10:20");
+        Thread.sleep(2000);
+        clickOn("#ChangeEventButton");
+        clickOn("#GoToAddEventButton");
+        clickOn("#DateField").write("31.12.2022");
+        clickOn("#TitleField").write("Отмечание нового года");
+        clickOn("#CategoryField").write("Личная жизнь");
+        clickOn("#AddEventButton");
+        clickOn("#BackToAppButton");
+        Thread.sleep(2000);
+        clickOn("#ExitButton");
+        Thread.sleep(2000);
+
+    }
+
+    @Test
     public void RightDateTest() {
         Date today = new Date();
         SimpleDateFormat formatToday = new SimpleDateFormat("'Сегодня: 'dd.MM.yyyy");

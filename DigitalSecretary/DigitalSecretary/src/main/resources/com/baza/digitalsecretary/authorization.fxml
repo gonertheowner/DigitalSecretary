@@ -45,6 +45,5 @@
             <Button fx:id="GoToRegistrationButton" focusTraversable="false" layoutX="64.0" layoutY="271.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" style="-fx-background-radius: 15;" text="Регистрация" />
          </children>
       </Pane>
-      <Button fx:id="SkipButton" focusTraversable="false" layoutX="907.0" layoutY="501.0" mnemonicParsing="false" text="Skip" />
    </children>
 </AnchorPane>

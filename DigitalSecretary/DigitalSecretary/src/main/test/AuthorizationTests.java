@@ -16,29 +16,12 @@ public class AuthorizationTests extends ApplicationTest {
     @BeforeEach
     public void setUpClass() throws Exception {
         ApplicationTest.launch(DigitalSecretaryApp.class);
-        //Thread.sleep(5000);
     }
 
-    /*public <T extends Node>  T find(final String query) {
-        return (T) lookup(query).queryAll().iterator().next();
-    }*/
-
-
-    /*@Override
-    public void start(Stage stage) throws IOException {
-        primaryStage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(DigitalSecretaryApp.class.getResource("authorization.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 960, 540);
-        primaryStage.setTitle("Digital Secretary");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }*/
 
     @AfterEach
     public void afterEachTest() throws TimeoutException {
         FxToolkit.hideStage();
-        //release(new KeyCode[]{});
-        //release(new MouseButton[]{});
     }
 
     @Test
@@ -111,20 +94,4 @@ public class AuthorizationTests extends ApplicationTest {
 
         FxAssert.verifyThat("#ErrorText", LabeledMatchers.hasText(expected));
     }
-
-/*    @Test
-    public void emptyLoginRegistrationTest() {
-        String login = "";
-        String password = "root";
-
-        String expected = "Логин должен содержать хотя бы один символ";
-
-        clickOn("#LogInField").write(login);
-        clickOn("#PasswordField").write(password);
-        clickOn("#SignInButton");
-
-        FxAssert.verifyThat("#ErrorText", LabeledMatchers.hasText(expected));
-    }*/
-
-
 }
